@@ -1,0 +1,647 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+
+
+  <meta name="keywords" content="配置文件," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'post'
+  };
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <title> Vim的配置 // 心中尚未崩坏的地方 </title>
+</head>
+
+<body>
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">心中尚未崩坏的地方</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<div class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            <i class="menu-item-icon icon-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              Vim的配置
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-09-30
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Vim/">Vim</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/09/30/vim-e7-9a-84-e9-85-8d-e7-bd-ae/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/30/vim-e7-9a-84-e9-85-8d-e7-bd-ae/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>最近在Ubuntu上学习Python，使用Vim来编写。早就对Vim有所耳闻，刚开始使用的确体验不好，在网上搜了搜Vim的配置文件和插件，再用起来感觉好多了，这里backup一下：<br><a id="more"></a></p>
+<p><pre class="lang:default decode:true ">“winpos 5 5          “ 设定窗口位置<br>“set lines=40 columns=155    “ 设定窗口大小<br>“set nu              “ 显示行号<br>set go=             “ 不要图形按钮<br>“color asmanian2     “ 设置背景主题<br>set guifont=Courier<em>New:h10:cANSI   “ 设置字体<br>“syntax on           “ 语法高亮<br>autocmd InsertLeave <em> se nocul  “ 用浅色高亮当前行<br>autocmd InsertEnter </em> se cul    “ 用浅色高亮当前行<br>“set ruler           “ 显示标尺<br>set showcmd         “ 输入的命令显示出来，看的清楚些<br>“set cmdheight=1     “ 命令行（在状态行下）的高度，设置为1<br>“set whichwrap+=&lt;,&gt;,h,l   “ 允许backspace和光标键跨越行边界(不建议)<br>“set scrolloff=3     “ 光标移动到buffer的顶部和底部时保持3行距离<br>set novisualbell    “ 不要闪烁(不明白)<br>set statusline=%F%m%r%h%w\ [FORMAT=%{&amp;ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\”%d/%m/%y\ -\ %H:%M\”)}   “状态行显示的内容<br>set laststatus=1    “ 启动显示状态行(1),总是显示状态行(2)<br>set foldenable      “ 允许折叠<br>set foldmethod=manual   “ 手动折叠<br>“set background=dark “背景使用黑色<br>set nocompatible  “去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限<br>“ 显示中文帮助<br>if version &gt;= 603<br>    set helplang=cn<br>    set encoding=utf-8<br>endif<br>“ 设置配色方案<br>“colorscheme murphy<br>“字体<br>“if (has(“gui_running”))<br>“   set guifont=Bitstream\ Vera\ Sans\ Mono\ 10<br>“endif<br>set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936<br>set termencoding=utf-8<br>set encoding=utf-8<br>set fileencodings=ucs-bom,utf-8,cp936<br>set fileencoding=utf-8<br>“””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””<br>“””””新文件标题””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””<br>“新建.c,.h,.sh,.java文件，自动插入文件头<br>autocmd BufNewFile <em>.cpp,</em>.[ch],<em>.sh,</em>.java,<em>.py exec “:call SetTitle()”<br>“定义函数SetTitle，自动插入文件头<br>func SetTitle()<br>    “如果文件类型为.sh文件<br>    if &amp;filetype == ‘sh’<br>        call setline(1,”#########################################################################”)<br>        call append(line(“.”), “# File Name: “.expand(“%”))<br>        call append(line(“.”)+1, “# Author: lucien”)<br>        call append(line(“.”)+2, “# mail: admin@lucienevans.com”)<br>        call append(line(“.”)+3, “# Created Time: “.strftime(“%c”))<br>        call append(line(“.”)+4, “#########################################################################”)<br>        call append(line(“.”)+5, “#!/bin/bash”)<br>        call append(line(“.”)+6, “”)<br>    elseif &amp;filetype == ‘python’<br>        call setline(1,”#!/usr/bin/python”)<br>        call append(line(“.”), “#coding:utf-8”)<br>        call append(line(“.”)+1, “#File Name: “.expand(“%”))<br>        call append(line(“.”)+2, “#Author: lucien”)<br>        call append(line(“.”)+3, “#Mail: admin@lucienevans.com “)<br>        call append(line(“.”)+4, “#Created Time: “.strftime(“%c”))<br>        call append(line(“.”)+5, “”)<br>    else<br>        call setline(1, “/<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em>“)<br>        call append(line(“.”), “File Name: “.expand(“%”))<br>        call append(line(“.”)+1, “Author: lucien”)<br>        call append(line(“.”)+2, “Mail: admin@lucienevans.com “)<br>        call append(line(“.”)+3, “Created Time: “.strftime(“%c”))<br>        call append(line(“.”)+4, “ <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/“)<br>        call append(line(“.”)+5, “”)<br>    endif<br>    if &amp;filetype == ‘cpp’<br>        call append(line(“.”)+6, “#include&lt;iostream&gt;”)<br>        call append(line(“.”)+7, “using namespace std;”)<br>        call append(line(“.”)+8, “”)<br>    endif<br>    if &amp;filetype == ‘c’<br>        call append(line(“.”)+6, “#include&lt;stdio.h&gt;”)<br>        call append(line(“.”)+7, “”)<br>    endif<br>    “新建文件后，自动定位到文件末尾<br>    autocmd BufNewFile <em> normal G<br>endfunc<br>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””<br>“键盘命令<br>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””<br>nmap &lt;leader&gt;w :w!&lt;cr&gt;<br>nmap &lt;leader&gt;f :find&lt;cr&gt;<br>“ 映射全选+复制 ctrl+a<br>map &lt;C-A&gt; ggVGY<br>map! &lt;C-A&gt; &lt;Esc&gt;ggVGY<br>map &lt;F12&gt; gg=G<br>“ 选中状态下 Ctrl+c 复制<br>vmap &lt;C-c&gt; “+y<br>“撤销<br>imap &lt;C-z&gt; &lt;ESC&gt;ui<br>“反撤销<br>imap &lt;C-y&gt; &lt;ESC&gt;&lt;C-r&gt;i<br>“自动补全<br>imap j &lt;C-X&gt;&lt;C-O&gt;  “这里没有显示出j前面的字符，应该是Ctrl+v然后再Alt+j<br>“删除一行<br>imap &lt;C-d&gt; &lt;ESC&gt;ddi<br>“去空行<br>nnoremap &lt;F2&gt; :g/^\s</em>$/d&lt;CR&gt;<br>“比较文件<br>nnoremap &lt;C-F2&gt; :vert diffsplit<br>“C，C++ 按F5编译运行<br>map &lt;F5&gt; :call CompileRunGcc()&lt;CR&gt;<br>func! CompileRunGcc()<br>    exec “w”<br>    if &amp;filetype == ‘c’<br>        exec “!g++ % -o %&lt;”<br>        exec “! ./%&lt;”<br>    elseif &amp;filetype == ‘cpp’<br>        exec “!g++ % -o %&lt;”<br>        exec “! ./%&lt;”<br>    elseif &amp;filetype == ‘java’<br>        exec “!javac %”<br>        exec “!java %&lt;”<br>    elseif &amp;filetype == ‘sh’<br>        :!./%<br>    endif<br>endfunc<br>“C,C++的调试<br>map &lt;F8&gt; :call Rungdb()&lt;CR&gt;<br>func! Rungdb()<br>    exec “w”<br>    exec “!g++ % -g -o %&lt;”<br>    exec “!gdb ./%&lt;”<br>endfunc<br>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””<br>“”实用设置<br>“””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””<br>“ 设置当文件被改动时自动载入<br>set autoread<br>“ quickfix模式<br>autocmd FileType c,cpp map &lt;buffer&gt; &lt;leader&gt;&lt;space&gt; :w&lt;cr&gt;:make&lt;cr&gt;<br>“代码补全<br>set completeopt=preview,menu<br>“允许插件<br>filetype plugin on<br>“”””””””””””””””””””””””””””””””””””””””””””””””<br>“””””””””””””””””python补全”””””””””””””””””””””<br>“”””””””””””””””””””””””””””””””””””””””””””””””<br>autocmd FileType python set omnifunc=pythoncomplete#Complete<br>“共享剪贴板<br>set clipboard+=unnamed<br>“从不备份<br>set nobackup<br>“make 运行<br>:set makeprg=g++\ -Wall\ \ %<br>“自动保存<br>set autowrite<br>set ruler                   “ 打开状态栏标尺<br>“set cursorline              “ 突出显示当前行<br>set magic                   “ 设置魔术<br>“set guioptions-=T           “ 隐藏工具栏<br>“set guioptions-=m           “ 隐藏菜单栏<br>“set statusline=\ %&lt;%F[%1<em>%M%</em>%n%R%H]%=\ %y\ %0(%{&amp;fileformat}\ %{&amp;encoding}\ %c:%l/%L%)\<br>“ 设置在状态行显示的信息<br>set foldcolumn=0<br>set foldmethod=indent<br>set foldlevel=3<br>set foldenable              “ 开始折叠<br>“ 不要使用vi的键盘模式，而是vim自己的<br>set nocompatible<br>“ 语法高亮<br>set syntax=on<br>“ 去掉输入错误的提示声音<br>set noeb<br>“ 在处理未保存或只读文件的时候，弹出确认<br>set confirm<br>“ 自动缩进<br>set autoindent<br>set cindent<br>“ Tab键的宽度<br>set tabstop=4<br>“ 统一缩进为4<br>set softtabstop=4<br>set shiftwidth=4<br>“ 不要用空格代替制表符<br>set noexpandtab<br>“ 在行和段开始处使用制表符<br>set smarttab<br>“ 显示行号<br>set number<br>“ 历史记录数<br>set history=1000<br>“禁止生成临时文件<br>set nobackup<br>set noswapfile<br>“搜索忽略大小写<br>set ignorecase<br>“搜索逐字符高亮<br>set hlsearch<br>set incsearch<br>“行内替换<br>set gdefault<br>“编码设置<br>set enc=utf-8<br>set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936<br>“语言设置<br>set langmenu=zh_CN.UTF-8<br>set helplang=cn<br>“ 我的状态行显示的内容（包括文件类型和解码）<br>“set statusline=%F%m%r%h%w\ [FORMAT=%{&amp;ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\”%d/%m/%y\ -\ %H:%M\”)}<br>“set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]<br>“ 总是显示状态行<br>set laststatus=2<br>“ 命令行（在状态行下）的高度，默认为1，这里是2<br>set cmdheight=2<br>“ 侦测文件类型<br>filetype on<br>“ 载入文件类型插件<br>filetype plugin on<br>“ 为特定文件类型载入相关缩进文件<br>filetype indent on<br>“ 保存全局变量<br>set viminfo+=!<br>“ 带有如下符号的单词不要被换行分割<br>set iskeyword+=</em>,$,@,%,#,-<br>“ 字符间插入的像素行数目<br>set linespace=0<br>“ 增强模式中的命令行自动完成操作<br>set wildmenu<br>“ 使回格键（backspace）正常处理indent, eol, start等<br>set backspace=2<br>“ 允许backspace和光标键跨越行边界<br>set whichwrap+=&lt;,&gt;,h,l<br>“ 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）<br>set mouse=a<br>set selection=exclusive<br>set selectmode=mouse,key<br>“ 通过使用: commands命令，告诉我们文件的哪一行被改变过<br>set report=0<br>“ 在被分割的窗口间显示空白，便于阅读<br>set fillchars=vert:\ ,stl:\ ,stlnc:\<br>“ 高亮显示匹配的括号<br>set showmatch<br>“ 匹配括号高亮的时间（单位是十分之一秒）<br>set matchtime=1<br>“ 光标移动到buffer的顶部和底部时保持3行距离<br>set scrolloff=3<br>“ 为C程序提供自动缩进<br>set smartindent<br>“ 高亮显示普通txt文件（需要txt.vim脚本）<br>au BufRead,BufNewFile *  setfiletype txt<br>“自动补全<br>:inoremap ( ()&lt;ESC&gt;i<br>:inoremap ) &lt;c-r&gt;=ClosePair(‘)’)&lt;CR&gt;<br>:inoremap { {&lt;CR&gt;}&lt;ESC&gt;O<br>:inoremap } &lt;c-r&gt;=ClosePair(‘}’)&lt;CR&gt;<br>:inoremap [ []&lt;ESC&gt;i<br>:inoremap ] &lt;c-r&gt;=ClosePair(‘]’)&lt;CR&gt;<br>:inoremap “ “”&lt;ESC&gt;i<br>:inoremap ‘ ‘’&lt;ESC&gt;i</pre></p>
+<p>function! ClosePair(char)<br>    if getline(‘.’)[col(‘.’) - 1] == a:char<br>        return “\&lt;Right&gt;”<br>    else<br>        return a:char<br>    endif<br>endfunction<br>filetype plugin indent on<br>“打开文件类型检测, 加了这句才可以用智能补全<br>set completeopt=longest,menu<br>这里只使用了一个python补全插件<a href="http://www.vim.org/scripts/script.php?script_id=1542" target="_blank" rel="external">Pythoncomplete</a>，其他的CTags、TaskList都没用了，以后有时间在弄，很多插件都在<a href="http://www.vim.org/" target="_blank" rel="external">Vim官网</a>或者<a href="https://www.github.com/" target="_blank" rel="external">GitHub</a>上。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/配置文件/"> #配置文件 </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/05/e5-ba-b7-e6-8b-93-e5-b1-95-e5-bc-80/">康拓展开基本介绍</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/09/15/python-e4-b8-ad-e6-96-87-e6-b3-a8-e9-87-8a/">Python中文注释</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="post-spread">
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      </div>
+    
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2014/09/30/vim-e7-9a-84-e9-85-8d-e7-bd-ae/"
+               data-title="Vim的配置" data-url="http://yoursite.com/2014/09/30/vim-e7-9a-84-e9-85-8d-e7-bd-ae/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="Lucien Wang" />
+          <p class="site-author-name">Lucien Wang</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/lucienevans" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/2619061243/profile?topnav=1&wvr=6" target="_blank">Weibo</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2014 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Lucien Wang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lucienwang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>
