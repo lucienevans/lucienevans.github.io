@@ -110,18 +110,18 @@
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories">
-            <i class="menu-item-icon icon-categories"></i> <br />
-            分类
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
           <a href="/archives">
             <i class="menu-item-icon icon-archives"></i> <br />
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分类
           </a>
         </li>
       
@@ -731,6 +731,260 @@
 
 
     
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/08/27/android-e5-ae-9e-e7-8e-b0-e6-8b-8d-e7-85-a7-e5-8a-9f-e8-83-bd/">
+                android实现拍照功能
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-08-27
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Android/">Android</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/08/27/android-e5-ae-9e-e7-8e-b0-e6-8b-8d-e7-85-a7-e5-8a-9f-e8-83-bd/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/27/android-e5-ae-9e-e7-8e-b0-e6-8b-8d-e7-85-a7-e5-8a-9f-e8-83-bd/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>[toc]</p>
+<p>Android框架包含了对多种摄像头和摄像特性的支持，应用程序可以进行图片和视频的捕获。</p>
+<h2 id="需要考虑的问题">需要考虑的问题</h2><p>在让应用程序使用Android设备的摄像头之前，应该考虑一些期望如何使用此硬件的问题。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/08/27/android-e5-ae-9e-e7-8e-b0-e6-8b-8d-e7-85-a7-e5-8a-9f-e8-83-bd/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/08/19/dijsktra-e7-ae-97-e6-b3-95-e5-a4-8d-e6-9d-82-e5-ba-a6/">
+                Dijsktra算法复杂度
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-08-19
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/算法/">算法</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/08/19/dijsktra-e7-ae-97-e6-b3-95-e5-a4-8d-e6-9d-82-e5-ba-a6/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/19/dijsktra-e7-ae-97-e6-b3-95-e5-a4-8d-e6-9d-82-e5-ba-a6/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>Dijsktra算法有不少变种，它们的时间复杂度都不一样，最近研究Router Planing in Road Network，里面对于Dijsktra时间复杂度分析的很好：</p>
+<p>Initially, s is inserted into the priority queue with the tentative distance 0.Thus, s is reached, all other nodes are unreached. While the priority queueis not empty, the node u with the smallest tentative distance is removed(deleteMin) and added to the shortest-path tree, i.e., u becomes settled. Furthermore, u’s outgoing edges are relaxed:</p>
+<ul>
+<li>if an edge (u, v) leads to an unreached node v, v is added to the priority queue (insert); now, v is reached;</li>
+<li>if an edge (u, v) leads to a queued node v, v’s key in the priority queue is updated (decreaseKey) provided that the length of the path from s via u to v is less than v’s old key;</li>
+<li>if an edge (u, v) leads to a settled node v, it is ignored<br>描述的就是Dijsktra算法的过程，可以看出，Dijsktra算法共需要n次insert，n次deleteMin，最多m次decreaseKey，那么时间复杂度就很好求了。</li>
+</ul>
+<ol>
+<li>用邻接矩阵或者邻接表储存，不使用优先队列，则每次insert、deleteMin都需要O(n)的时间复杂度，每次decreaseKey需要O(1)的时间复杂度，所以总共的时间复杂度是O(n^2+m)。一般来说n^2&gt;m，所以近似为O(n^2)。</li>
+<li>使用大顶堆优先队列，则每次insert、deleteMin和decreaseKey都需要需要O(log(n))的时间复杂度，所以总的时间复杂度是O((n+m)log(n))。</li>
+<li>使用Fibonacci优先队列，则每次insert、deleteMin都需要O(log(n))的时间复杂度，decreaseKey需要O(1)的时间复杂度，所以总的时间复杂度是O(m+nlog(n))。</li>
+</ol>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/08/07/e6-9c-89-e5-85-b3-e4-ba-a4-e9-80-9a-e6-9c-80-e7-9f-ad-e8-b7-af-e7-9a-84-e4-b8-80-e4-ba-9b-e6-8a-80-e6-9c-af/">
+                有关交通最短路的一些技术
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-08-07
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/交通流最短路/">交通流最短路</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/08/07/e6-9c-89-e5-85-b3-e4-ba-a4-e9-80-9a-e6-9c-80-e7-9f-ad-e8-b7-af-e7-9a-84-e4-b8-80-e4-ba-9b-e6-8a-80-e6-9c-af/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/07/e6-9c-89-e5-85-b3-e4-ba-a4-e9-80-9a-e6-9c-80-e7-9f-ad-e8-b7-af-e7-9a-84-e4-b8-80-e4-ba-9b-e6-8a-80-e6-9c-af/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <address>本文中讨论的最短路问题都是一对一的最短路问题，即从一个起点到一个终点的最短路求法。</address>
+
+<h2 id="一、Dijsktra算法">一、Dijsktra算法</h2><p>这个无需多说，是求图最短路的经典算法。要注意的是经典Dijsktra算法是求一个点到图中其他所有点的最短路，在我们求一对一最短路时，当搜索到终点即终止Dijsktra算法。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/08/07/e6-9c-89-e5-85-b3-e4-ba-a4-e9-80-9a-e6-9c-80-e7-9f-ad-e8-b7-af-e7-9a-84-e4-b8-80-e4-ba-9b-e6-8a-80-e6-9c-af/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
   </div>
 
   
@@ -783,7 +1037,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -829,7 +1083,7 @@
       <div class="footer-inner">
         <div class="copyright">
   
-  &copy; &nbsp;  2014 - 
+  &copy; &nbsp; 
   2015
   <span class="with-love">
     <i class="icon-heart"></i>
