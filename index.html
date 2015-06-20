@@ -99,7 +99,7 @@
   
 
   
-    <ul id="menu" class="menu ">
+    <ul id="menu" class="menu menu-left">
       
         
         <li class="menu-item menu-item-home">
@@ -144,6 +144,24 @@
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  
+<form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', '5BDj1jDx4kzYMU_X-3kZ','2.0.0');
+</script>
+
+<div class="site-search-toggle"></div>
+    </div>
   
 </div>
 
@@ -214,8 +232,7 @@
 
       
         
-          <p>[toc]</p>
-<p>在上一篇文章<a href="http://www.lucienevans.com/?p=80">Highway Hierarchies</a>中介绍了怎么构建一个图的Highway Hierarchies，我们得到了(\varsigma = (V,E \cup \cup _{i = 1}^L{S_i}))以及各层次的({V_l})，({V’_l})，({E_l})，({E’_l})，({B_l})，({S_l})。现在我们来研究到底怎么运用Highway Hierarchies的这些数据进行最短路的查询。</p>
+          <p>在上一篇文章<a href="http://www.lucienevans.com/?p=80">Highway Hierarchies</a>中介绍了怎么构建一个图的Highway Hierarchies，我们得到了$\varsigma = (V,E \cup \cup _{i = 1}^L{S_i})$以及各层次的${V_l}$，${V’_l}$，${E_l}$，${E’_l}$，${B_l}$，${S_l}$。现在我们来研究到底怎么运用Highway Hierarchies的这些数据进行最短路的查询。</p>
 <h2 id="基本思路">基本思路</h2><p>公路层次查询算法（<em>highway query algorithm</em>）是双向Dijkstra算法的一个变体，所以在下面的叙述中我们只关注从起点开始的算法，从终点开始的算法与其是一样的。对于搜索时的每个点来说，除了包含起点到它的距离（Dijkstra算法所需的数据）之外，还要包含搜索到它时的网络层次以及它到当前搜索边界的距离（<em><span style="color: #231f20;">the gap to the ‘next applicable neighborhood border’</span></em>）。这里的gap是为了确定怎么进行下一步的搜索，具体计算方法是：<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/10/14/highway-hierarchies-query/#more">
@@ -297,10 +314,10 @@
 
       
         
-          <p><span style="color: #000000;">[toc]</span></p>
+          <p><span style="color: #000000;"></span></p>
 <p><span style="color: #000000;">  给出n个互不相同的字符, 并给定它们的相对大小顺序,这样n个字符的所有排列也会有一个顺序. 现在任给一个排列,求出在它后面的第i个排列.</span><br><span style="color: #000000;">这是一个典型的康拓展开应用，首先我们先阐述一下什么是康拓展开。</span></p>
-<h2 id="康拓展开">康拓展开</h2><p><span style="color: #000000;">  所谓康拓展开是指把一个字符序列展开成如下形式：</span>(X = \sum\limits_{i = 1}^n {a(i)*(i - 1)!} ),</p>
-<p>其中(n)是字符的总共数目，(a[i])是该字符在未出现的字符中的大小序号。</p>
+<h2 id="康拓展开">康拓展开</h2><p><span style="color: #000000;">  所谓康拓展开是指把一个字符序列展开成如下形式：</span>$X = \sum\limits_{i = 1}^n {a(i)*(i - 1)!} $,</p>
+<p>其中$n$是字符的总共数目，$a[i]$是该字符在未出现的字符中的大小序号。</p>
 <p>这个公式看起来很让人头疼，我们来举个例子说明。例如有一个字符数组s=[‘A’,’B’,’C’,’D’]，数组的排列顺表示它们的大小顺序，即’A’&lt;’B’&lt;’C’&lt;’D’。对于它的一个排列a=[‘D’,’B’,’A’,’C’]，我们可以求出其康拓展开的值（即该排列的大小）：<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/10/05/e5-ba-b7-e6-8b-93-e5-b1-95-e5-bc-80/#more">
@@ -626,8 +643,7 @@
 
       
         
-          <p>[toc]</p>
-<h2 id="前言">前言</h2><p>前段时间在写自己看论文的感想时需要在blog中插入数学公式，但是WordPress的编辑器中没有数学公式的插入方法，一开始我想的是截图后插入图片，显然这样做实在太麻烦。之后我在网上找了找，发现可以使用latex显示数学公式。具体步骤如下：</p>
+          <h2 id="前言">前言</h2><p>前段时间在写自己看论文的感想时需要在blog中插入数学公式，但是WordPress的编辑器中没有数学公式的插入方法，一开始我想的是截图后插入图片，显然这样做实在太麻烦。之后我在网上找了找，发现可以使用latex显示数学公式。具体步骤如下：</p>
 <h2 id="安装一个Latex插件">安装一个Latex插件</h2><p>现在在WordPress中支持Latex的方法主要有两种：<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/09/09/e5-9c-a8wordpress-e4-b8-ad-e6-8f-92-e5-85-a5-e6-95-b0-e5-ad-a6-e5-85-ac-e5-bc-8f/#more">
@@ -788,8 +804,7 @@
 
       
         
-          <p>[toc]</p>
-<p>Android框架包含了对多种摄像头和摄像特性的支持，应用程序可以进行图片和视频的捕获。</p>
+          <p>Android框架包含了对多种摄像头和摄像特性的支持，应用程序可以进行图片和视频的捕获。</p>
 <h2 id="需要考虑的问题">需要考虑的问题</h2><p>在让应用程序使用Android设备的摄像头之前，应该考虑一些期望如何使用此硬件的问题。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/08/27/android-e5-ae-9e-e7-8e-b0-e6-8b-8d-e7-85-a7-e5-8a-9f-e8-83-bd/#more">

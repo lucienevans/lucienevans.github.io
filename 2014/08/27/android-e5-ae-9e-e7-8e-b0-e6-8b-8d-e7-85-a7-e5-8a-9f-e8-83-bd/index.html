@@ -97,7 +97,7 @@
   
 
   
-    <ul id="menu" class="menu ">
+    <ul id="menu" class="menu menu-left">
       
         
         <li class="menu-item menu-item-home">
@@ -142,6 +142,24 @@
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  
+<form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', '5BDj1jDx4kzYMU_X-3kZ','2.0.0');
+</script>
+
+<div class="site-search-toggle"></div>
+    </div>
   
 </div>
 
@@ -209,8 +227,7 @@
       
 
       
-        <p>[toc]</p>
-<p>Android框架包含了对多种摄像头和摄像特性的支持，应用程序可以进行图片和视频的捕获。</p>
+        <p>Android框架包含了对多种摄像头和摄像特性的支持，应用程序可以进行图片和视频的捕获。</p>
 <h2 id="需要考虑的问题">需要考虑的问题</h2><p>在让应用程序使用Android设备的摄像头之前，应该考虑一些期望如何使用此硬件的问题。<br><a id="more"></a></p>
 <ul>
 <li><strong>摄像头需求</strong>—— 摄像头的使用对于应用程序是否确实如此重要，以至于在没有摄像头的设备上就不期望安装此应用了？如果确实如此，应该 <a href="http://blog.sina.com.cn/s/blog_48d491300100ztl9.html#manifest" target="_blank" rel="external">在manifest中声明摄像头需求</a>。</li>
@@ -256,84 +273,23 @@
 </ul>
 <h3 id="捕获图像的intent">捕获图像的intent</h3><p>如果希望程序以最少的代码实现拍照功能，利用摄像头intent捕获图像是一条捷径。图像捕捉intent还可以包含以下附加信息：</p>
 <ul>
-<li><a href="http://developer.android.com/reference/android/provider/MediaStore.html#EXTRA_OUTPUT" target="_blank" rel="external">MediaStore.EXTRA_OUTPUT</a>——本设置需要一个 <a href="http://developer.android.com/reference/android/net/Uri.html" target="_blank" rel="external">Uri</a>对象，用于指定存放图片的路径和文件名。本设置是可选项，但强烈建议使用。如果未指定本设置值，那么摄像应用将会把所请求的图片以默认文件名和路径进行保存，并将数据置入intent的 <a href="http://developer.android.com/reference/android/content/Intent.html#getData(" target="_blank" rel="external">Intent.getData()</a>)部分返回。<br>以下例子演示了如何构建并执行一个图像捕获intent。此例中的<span style="color: #007000;">getOutputMediaFileUri()</span> 方法引自<a href="http://blog.sina.com.cn/s/blog_48d491300100ztl9.html#saveFile" target="_blank" rel="external">保存媒体文件</a>中的例程代码。<br><pre class="lang:default decode:true">private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE=100;</pre></li>
+<li><a href="http://developer.android.com/reference/android/provider/MediaStore.html#EXTRA_OUTPUT" target="_blank" rel="external">MediaStore.EXTRA_OUTPUT</a>——本设置需要一个 <a href="http://developer.android.com/reference/android/net/Uri.html" target="_blank" rel="external">Uri</a>对象，用于指定存放图片的路径和文件名。本设置是可选项，但强烈建议使用。如果未指定本设置值，那么摄像应用将会把所请求的图片以默认文件名和路径进行保存，并将数据置入intent的 <a href="http://developer.android.com/reference/android/content/Intent.html#getData(" target="_blank" rel="external">Intent.getData()</a>)部分返回。<br>以下例子演示了如何构建并执行一个图像捕获intent。此例中的<span style="color: #007000;">getOutputMediaFileUri()</span> 方法引自<a href="http://blog.sina.com.cn/s/blog_48d491300100ztl9.html#saveFile" target="_blank" rel="external">保存媒体文件</a>中的例程代码。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE=<span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Uri fileUri;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span> <span class="params">(Bundle  savedInstanceState)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">  setContentView(R.layout.main);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//创建拍照 Intent并将控制权返回给调用的程序</span></span><br><span class="line"></span><br><span class="line">  Intent intent = <span class="keyword">new</span> Intent(MediaStore.ACTION_IMAGE_CAPTURE);</span><br><span class="line"></span><br><span class="line">  fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//创建保存图片的文件</span></span><br><span class="line"></span><br><span class="line">  intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//设置图片文件名</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//启动图像捕获Intent</span></span><br><span class="line"></span><br><span class="line">  startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>private Uri fileUri;</p>
-<p>@Override</p>
-<p>public void onCreate (Bundle  savedInstanceState){</p>
-<p>  super.onCreate(savedInstanceState);</p>
-<p>  setContentView(R.layout.main);</p>
-<p>  //创建拍照 Intent并将控制权返回给调用的程序</p>
-<p>  Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);</p>
-<p>  fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);</p>
-<p>  //创建保存图片的文件</p>
-<p>  intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);</p>
-<p>  //设置图片文件名</p>
-<p>  //启动图像捕获Intent</p>
-<p>  startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);</p>
-<p>}<br><a href="http://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent,%20int" target="_blank" rel="external">startActivityForResult()</a>) 方法执行完毕后，用户将看到内置摄像头应用程序的界面。用户拍照完毕（或取消操作）后，用户界面返回应用程序，这时必须截获 <a href="http://developer.android.com/reference/android/app/Activity.html#onActivityResult(int,%20int,%20android.content.Intent" target="_blank" rel="external">onActivityResult()</a>) 方法来接收intent的返回结果并执行后续操作。关于如何接收完整的intent，请参阅 接收摄像头Intent的结果。</p>
+<p><a href="http://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent,%20int" target="_blank" rel="external">startActivityForResult()</a>) 方法执行完毕后，用户将看到内置摄像头应用程序的界面。用户拍照完毕（或取消操作）后，用户界面返回应用程序，这时必须截获 <a href="http://developer.android.com/reference/android/app/Activity.html#onActivityResult(int,%20int,%20android.content.Intent" target="_blank" rel="external">onActivityResult()</a>) 方法来接收intent的返回结果并执行后续操作。关于如何接收完整的intent，请参阅 接收摄像头Intent的结果。</p>
 <h3 id="捕获视频的intent">捕获视频的intent</h3><p>如果希望程序以最少的代码实现摄像功能，利用摄像头intent捕获视频是一条捷径。视频捕捉intent可以包含以下附带信息：</p>
 <ul>
 <li><a href="http://developer.android.com/reference/android/provider/MediaStore.html#EXTRA_OUTPUT" target="_blank" rel="external">MediaStore.EXTRA_OUTPUT</a>——本设置需要一个 <a href="http://developer.android.com/reference/android/net/Uri.html" target="_blank" rel="external">Uri</a> ，用于指定保存视频的路径和文件名。本设置是可选项，但强烈建议使用。如果未指定本设置值，那么摄像应用将会把所请求的视频以默认文件名和路径进行保存，并将数据置入intent的 <a href="http://developer.android.com/reference/android/content/Intent.html#getData(" target="_blank" rel="external">Intent.getData()</a>) 部分返回。</li>
 <li><a href="http://developer.android.com/reference/android/provider/MediaStore.html#EXTRA_VIDEO_QUALITY" target="_blank" rel="external">MediaStore.EXTRA_VIDEO_QUALITY</a>——本值用0表示最低品质及最小的文件尺寸，用1表示最高品质和较大的文件尺寸。</li>
 <li><a href="http://developer.android.com/reference/android/provider/MediaStore.html#EXTRA_DURATION_LIMIT" target="_blank" rel="external">MediaStore.EXTRA_DURATION_LIMIT</a>——本值用于限制所捕获视频的长度，以秒为单位。</li>
-<li><a href="http://developer.android.com/reference/android/provider/MediaStore.html#EXTRA_SIZE_LIMIT" target="_blank" rel="external">MediaStore.EXTRA_SIZE_LIMIT</a>——本值用于限制所捕获视频的文件尺寸，以字节为单位。<br>以下例子演示了如何构建并执行一个视频捕获intent。本例中的<span style="color: #007000;">getOutputMediaFileUri()</span>方法引自 <a href="http://blog.sina.com.cn/s/blog_48d491300100ztl9.html#saveFile" target="_blank" rel="external">保存媒体文件</a>中的例程代码。<br><pre class="lang:default decode:true ">private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE =200;</pre></li>
+<li><a href="http://developer.android.com/reference/android/provider/MediaStore.html#EXTRA_SIZE_LIMIT" target="_blank" rel="external">MediaStore.EXTRA_SIZE_LIMIT</a>——本值用于限制所捕获视频的文件尺寸，以字节为单位。<br>以下例子演示了如何构建并执行一个视频捕获intent。本例中的<span style="color: #007000;">getOutputMediaFileUri()</span>方法引自 <a href="http://blog.sina.com.cn/s/blog_48d491300100ztl9.html#saveFile" target="_blank" rel="external">保存媒体文件</a>中的例程代码。<br><pre class="lang:default decode:true "><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE =<span class="number">200</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Uri fileUri;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">  setContentView(R.layout.main);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//创建新的Intent</span></span><br><span class="line"></span><br><span class="line">  <span class="function">intent new <span class="title">Intent</span><span class="params">(MediaStore.ACTION_VIDEO_CAPTURE)</span></span>;</span><br><span class="line"></span><br><span class="line">  fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//创建保存视频的文件</span></span><br><span class="line"></span><br><span class="line">  intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//设置视频文件名</span></span><br><span class="line"></span><br><span class="line">  intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//设置视频的品质为高</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//启动视频捕获Intent</span></span><br><span class="line"></span><br><span class="line">  startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</pre></li>
 </ul>
-<p>private Uri fileUri;</p>
-<p>@Override</p>
-<p>public void onCreate(Bundle savedInstanceState){</p>
-<p>  super.onCreate(savedInstanceState);</p>
-<p>  setContentView(R.layout.main);</p>
-<p>  //创建新的Intent</p>
-<p>  intent new Intent(MediaStore.ACTION_VIDEO_CAPTURE);</p>
-<p>  fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);</p>
-<p>  //创建保存视频的文件</p>
-<p>  intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);</p>
-<p>  //设置视频文件名</p>
-<p>  intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);</p>
-<p>  //设置视频的品质为高</p>
-<p>  //启动视频捕获Intent</p>
-<p>  startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);</p>
-<p>}<br><a href="http://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent,%20int" target="_blank" rel="external">startActivityForResult()</a>) 方法执行完毕后，用户将看到一个改动过的摄像程序界面。用户摄像完毕（或取消操作）后，用户界面返回应用程序，这时必须截获 <a href="http://developer.android.com/reference/android/app/Activity.html#onActivityResult(int,%20int,%20android.content.Intent" target="_blank" rel="external">onActivityResult()</a>) 方法来接收intent的返回结果并执行后续操作。关于如何接收完整的intent，请参阅下一节。</p>
+<p><a href="http://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent,%20int" target="_blank" rel="external">startActivityForResult()</a>) 方法执行完毕后，用户将看到一个改动过的摄像程序界面。用户摄像完毕（或取消操作）后，用户界面返回应用程序，这时必须截获 <a href="http://developer.android.com/reference/android/app/Activity.html#onActivityResult(int,%20int,%20android.content.Intent" target="_blank" rel="external">onActivityResult()</a>) 方法来接收intent的返回结果并执行后续操作。关于如何接收完整的intent，请参阅下一节。</p>
 <h3 id="接受摄像头的结果">接受摄像头的结果</h3><p>一旦已构建并运行了图像或视频的摄像头intent，应用程序就必须进行设置，以接收intent返回的结果。本节展示了如何 截获摄像头intent的回调方法，以便应用程序对捕获到的图片及视频进行进一步的处理。</p>
 <p>要接收intent的返回结果，必须覆盖启动intent的activity中的 <a href="http://developer.android.com/reference/android/app/Activity.html#onActivityResult(int,%20int,%20android.content.Intent" target="_blank" rel="external">onActivityResult()</a>)方法。以下例子演示了如何覆盖<a href="http://developer.android.com/reference/android/app/Activity.html#onActivityResult(int,%20int,%20android.content.Intent" target="_blank" rel="external">onActivityResult()</a>)来获取上述章节例程中的 <a href="http://blog.sina.com.cn/s/blog_48d491300100ztl9.html#intent_image" target="_blank" rel="external">图像捕获intent</a>或 <a href="http://blog.sina.com.cn/s/blog_48d491300100ztl9.html#intent_video" target="_blank" rel="external">视频捕获intent</a>的结果。</p>
-<p><pre class="lang:default decode:true">private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;</pre></p>
-<p>private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;</p>
-<p>@Override protected void onActivityResult(int requestCode, int resultCode,Intent data){</p>
-<p>   if (requestCode==CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {</p>
-<pre><code>   <span class="keyword">if</span> <span class="params">(resultCode==RESULT_OK)</span> {
-
-       <span class="comment">//捕获的图像保存到Intent指定的fileUri</span>
-
-       Toast..makeText<span class="params">(this,<span class="string">"Image saved to:\n"</span>+
-
-    data.getData<span class="params">()</span>,Toast.LENGTH_LONG)</span>.show<span class="params">()</span>;
-
-}
-    <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(resultCode==RESULT_CANCELED)</span> {
-
-     <span class="comment">//用户取消了图像捕获</span>
-
-<span class="keyword">else</span> {
-<span class="comment">//图像捕获失败，提示用户</span>
-}
-</code></pre><p>  }</p>
-<p>   if(requestCode==CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {</p>
-<pre><code>  <span class="keyword">if</span> <span class="params">(resultCode==RESULT_OK)</span> {
-
-  <span class="comment">//捕获的视频保存到Intent指定的fileUri</span>
-
-  Toast.makeText<span class="params">(this,<span class="string">"Video saved to:\n"</span> +
-
-    data.getData<span class="params">()</span>;
-
-    Toast.LENGTH_LONG)</span>.show<span class="params">()</span>;
- }
-    <span class="keyword">else</span>  <span class="keyword">if</span> <span class="params">(resultCode == RESULT_CANCELED)</span> {
-   <span class="comment">//用户取消了视频捕获</span>
-}
-</code></pre><p>   else {<br>   //视频捕获失败，提示用户<br>    }<br>  }<br>}<br>一旦activity接收到成功的结果，就说明捕获到的图像或视频已保存到指定位置了，应用程序就可对其进行访问。</p>
-<p>&nbsp;</p>
+<p><pre class="lang:default decode:true"><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@Override</span> <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode,Intent data)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (requestCode==CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) &#123;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (resultCode==RESULT_OK) &#123;</span><br><span class="line"></span><br><span class="line">           <span class="comment">//捕获的图像保存到Intent指定的fileUri</span></span><br><span class="line"></span><br><span class="line">           Toast..makeText(<span class="keyword">this</span>,<span class="string">"Image saved to:\n"</span>+</span><br><span class="line"></span><br><span class="line">        data.getData(),Toast.LENGTH_LONG).show();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (resultCode==RESULT_CANCELED) &#123;</span><br><span class="line"></span><br><span class="line">         <span class="comment">//用户取消了图像捕获</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//图像捕获失败，提示用户</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(requestCode==CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (resultCode==RESULT_OK) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//捕获的视频保存到Intent指定的fileUri</span></span><br><span class="line"></span><br><span class="line">      Toast.makeText(<span class="keyword">this</span>,<span class="string">"Video saved to:\n"</span> +</span><br><span class="line"></span><br><span class="line">        data.getData();</span><br><span class="line"></span><br><span class="line">        Toast.LENGTH_LONG).show();</span><br><span class="line">     &#125;</span><br><span class="line">        <span class="keyword">else</span>  <span class="keyword">if</span> (resultCode == RESULT_CANCELED) &#123;</span><br><span class="line">       <span class="comment">//用户取消了视频捕获</span></span><br><span class="line">    &#125;</span><br><span class="line">   <span class="keyword">else</span> &#123;</span><br><span class="line">   <span class="comment">//视频捕获失败，提示用户</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></pre></p>
+<p>一旦activity接收到成功的结果，就说明捕获到的图像或视频已保存到指定位置了，应用程序就可对其进行访问。</p>
 <p><strong>原文地址：<a href="http://blog.sina.com.cn/s/blog_48d491300100ztl9.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_48d491300100ztl9.html</a></strong></p>
 
       

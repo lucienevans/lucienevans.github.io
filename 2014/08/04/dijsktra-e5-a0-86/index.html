@@ -97,7 +97,7 @@
   
 
   
-    <ul id="menu" class="menu ">
+    <ul id="menu" class="menu menu-left">
       
         
         <li class="menu-item menu-item-home">
@@ -142,6 +142,24 @@
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  
+<form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', '5BDj1jDx4kzYMU_X-3kZ','2.0.0');
+</script>
+
+<div class="site-search-toggle"></div>
+    </div>
   
 </div>
 
@@ -210,12 +228,7 @@
 
       
         <p>Dijkstra算法是求图中最短路的算法。最原始的Dijsktra算法，使用邻接表的时间复杂度是O(n^2)，使用邻接矩阵的时间复杂度是O(m+n^2)。若使用小顶堆表示优先队列，则可以将每次寻找最短点的时间复杂度降到O(log(n))，将decreaseKey复杂度降到log(n),即Dijsktra总体复杂度降为O((m+n)*log(n))。若采用更复杂的数据结构表示优先队列，会使得复杂度更低。具体复杂度计算<br><a id="more"></a></p>
-<p>下面是Dijsktra+小顶堆的demo代码：</p>
-<p><pre class="lang:default decode:true ">#include&lt;stdio.h&gt;</pre></p>
-<h1 id="include&lt;string-h&gt;">include&lt;string.h&gt;</h1><h1 id="include&lt;queue&gt;">include&lt;queue&gt;</h1><h1 id="include&lt;vector&gt;">include&lt;vector&gt;</h1><p>using namespace std;</p>
-<p>const int MAXN=1000;<br>const int INF = 0x3f3f3f3f;<br>//优先队列所需结构体<br>struct Node {<br>    int val,d;<br>    Node(int a,int b){<br>        val=a; d=b;<br>    }<br>    bool operator &lt; (const Node&amp; a) const {<br>        if(d==a.d) return val&lt;a.val;<br>        else return d&gt;a.d;<br>    }<br>};<br>//邻接表<br>int g[MAXN][MAXN],n;<br>//各点距离,是否访问过该点<br>int dist[MAXN],visit[MAXN];</p>
-<p>void Dijkstra(int s){<br>    int i;<br>    //初始s到各点距离为INT_MAX<br>    memset(dist,0x3f,sizeof(dist));<br>    memset(visit,0,sizeof(visit));<br>    dist[s]=0;<br>    //优先队列<br>    priority_queue&lt;Node&gt; q;<br>    q.push(Node(s,dist[s]));<br>    while(!q.empty()){<br>        Node temp=q.top();<br>        q.pop();<br>        for(i=1;i&lt;=n;i++){<br>            if(!visit[i] &amp;&amp; g[temp.val][i]+dist[temp.val]&lt;dist[i]){<br>                dist[i]=g[temp.val][i]+dist[temp.val];<br>                q.push(Node(i,dist[i]));<br>                        visit[i]=true;<br>            }<br>        }<br>    }<br>}</p>
-<p>int main(){<br>    int a,b,d,m,i;<br>    while(scanf(“%d %d”,&amp;n,&amp;m) &amp;&amp; (n||m)){<br>        //初始化<br>        memset(g,0x3f,sizeof(g));<br>        while(m—){<br>            scanf(“%d %d %d”,&amp;a,&amp;b,&amp;d);<br>            g[a][b]=g[b][a]=d;<br>        }<br>        Dijkstra(1);<br>        for(i=1;i&lt;=n;i++)<br>            printf(“1—&gt;%d:%d\n”,i,dist[i]);<br>    }<br>    return 0;<br>}<br>&nbsp;</p>
+<p>下面是Dijsktra+小顶堆的demo代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#include&amp;lt;stdio.h&amp;gt;</span></span><br><span class="line"><span class="preprocessor">#include&amp;lt;string.h&amp;gt;</span></span><br><span class="line"><span class="preprocessor">#include&amp;lt;queue&amp;gt;</span></span><br><span class="line"><span class="preprocessor">#include&amp;lt;vector&amp;gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAXN=<span class="number">1000</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line"><span class="comment">//优先队列所需结构体</span></span><br><span class="line"><span class="keyword">struct</span> Node &#123;</span><br><span class="line">	<span class="keyword">int</span> val,d;</span><br><span class="line">	Node(<span class="keyword">int</span> a,<span class="keyword">int</span> b)&#123;</span><br><span class="line">		val=a; d=b;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">bool</span> <span class="keyword">operator</span> &amp;lt; (<span class="keyword">const</span> Node&amp;amp; a) <span class="keyword">const</span> &#123;</span><br><span class="line">		<span class="keyword">if</span>(d==a.d) <span class="keyword">return</span> val&amp;lt;a.val;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">return</span> d&amp;gt;a.d;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//邻接表</span></span><br><span class="line"><span class="keyword">int</span> g[MAXN][MAXN],n;</span><br><span class="line"><span class="comment">//各点距离,是否访问过该点</span></span><br><span class="line"><span class="keyword">int</span> dist[MAXN],visit[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dijkstra</span><span class="params">(<span class="keyword">int</span> s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="comment">//初始s到各点距离为INT_MAX</span></span><br><span class="line">	<span class="built_in">memset</span>(dist,<span class="number">0x3f</span>,<span class="keyword">sizeof</span>(dist));</span><br><span class="line">	<span class="built_in">memset</span>(visit,<span class="number">0</span>,<span class="keyword">sizeof</span>(visit));</span><br><span class="line">	dist[s]=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//优先队列</span></span><br><span class="line">	priority_queue&amp;lt;Node&amp;gt; q;</span><br><span class="line">	q.push(Node(s,dist[s]));</span><br><span class="line">	<span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">		Node temp=q.top();</span><br><span class="line">		q.pop();</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">1</span>;i&amp;lt;=n;i++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(!visit[i] &amp;amp;&amp;amp; g[temp.val][i]+dist[temp.val]&amp;lt;dist[i])&#123;</span><br><span class="line">				dist[i]=g[temp.val][i]+dist[temp.val];</span><br><span class="line">				q.push(Node(i,dist[i]));</span><br><span class="line">		                visit[i]=<span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a,b,d,m,i;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d %d"</span>,&amp;amp;n,&amp;amp;m) &amp;amp;&amp;amp; (n||m))&#123;</span><br><span class="line">		<span class="comment">//初始化</span></span><br><span class="line">		<span class="built_in">memset</span>(g,<span class="number">0x3f</span>,<span class="keyword">sizeof</span>(g));</span><br><span class="line">		<span class="keyword">while</span>(m--)&#123;</span><br><span class="line">			<span class="built_in">scanf</span>(<span class="string">"%d %d %d"</span>,&amp;amp;a,&amp;amp;b,&amp;amp;d);</span><br><span class="line">			g[a][b]=g[b][a]=d;</span><br><span class="line">		&#125;</span><br><span class="line">		Dijkstra(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">1</span>;i&amp;lt;=n;i++)</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"1--&amp;gt;%d:%d\n"</span>,i,dist[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -386,7 +399,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#include<string-h>"><span class="nav-number">1.</span> <span class="nav-text">include<string.h></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#include<queue>"><span class="nav-number">2.</span> <span class="nav-text">include<queue></span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#include<vector>"><span class="nav-number">3.</span> <span class="nav-text">include<vector></span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
