@@ -1,0 +1,693 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+  <meta name="google-site-verification" content="VvyjvVXcJQa0QklHipu6pwm2PJGnnchIqX7s5JbbT_0" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+
+
+  <meta name="keywords" content="人工智能,寻路算法," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'post'
+  };
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?50c15455e37f70aea674ff4a663eef27";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <title> 八数码——回顾BFS、双向广搜与A* // 心中尚未崩坏的地方 </title>
+</head>
+
+<body>
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">心中尚未崩坏的地方</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<div class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            <i class="menu-item-icon icon-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+<form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', '5BDj1jDx4kzYMU_X-3kZ','2.0.0');
+</script>
+
+<div class="site-search-toggle"></div>
+    </div>
+  
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              八数码——回顾BFS、双向广搜与A*
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-10-09
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/算法/">算法</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/10/09/e5-85-ab-e6-95-b0-e7-a0-81-e5-9b-9e-e9-a1-bebfs-e3-80-81-e5-8f-8c-e5-90-91-e5-b9-bf-e6-90-9c-e4-b8-8ea/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/09/e5-85-ab-e6-95-b0-e7-a0-81-e5-9b-9e-e9-a1-bebfs-e3-80-81-e5-8f-8c-e5-90-91-e5-b9-bf-e6-90-9c-e4-b8-8ea/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>很长时间没做OJ了，现在觉着手很生疏啊。。以后每天都要刷刷题。最近研究论文遇到基于双向广搜的算法，以前也研究过A*算法，现在来通过一道很经典的OJ题来回顾回顾。</p>
+<h1 id="问题简介：">问题简介：</h1><p>八数码问题也称为九宫问题。在3×3的棋盘，摆有八个棋子，每个棋子上标有1至8的某一数字，不同棋子上标的数字不相同。棋盘上还有一个空格，与空格相邻的棋子可以移到空格中。要求解决的问题是：给出一个初始状态和一个目标状态，找出一种从初始转变成目标状态的移动棋子步数最少的移动步骤。所谓问题的一个状态就是棋子在棋盘上的一种摆法。棋子移动后，状态就会发生改变。解八数码问题实际上就是找出从初始状态到达目标状态所经过的一系列中间过渡状态。</p>
+<p>具体题目请参考<a href="http://poj.org/problem?id=1077" target="_blank" rel="external">POJ-1077</a>。</p>
+<h1 id="问题分析：">问题分析：</h1><h2 id="如何表示八数码中的每一个状态？">如何表示八数码中的每一个状态？</h2><p>八数码总共有9位状态位，可以使用一维数组表示，其中空格可以使用9（或者0，这关系后面Cantor展开的计算）。因为八数码总共只有九位，所以一个九位的一维char数组就足够了。<br><a id="more"></a></p>
+<h2 id="如何判断两个八数码状态是否相同？">如何判断两个八数码状态是否相同？</h2><p>我们注意到八数码总共只有9！中排列方式，所以我们可以使用Cantor展开来将每一个八数码转化成一个int类型的数，这比直接判断要好得多，且更容易存储。有关Cantor展开的内容请参考：<a href="/2014/10/05/e5-ba-b7-e6-8b-93-e5-b1-95-e5-bc-80/">康拓展开基本介绍</a>。</p>
+<h2 id="如何判断状态是否有解？">如何判断状态是否有解？</h2><p>我们可以通过逆序数的知识来判断。</p>
+<p>首先我们引入逆序数的概念：对于一个排列${a[1],a[2],a[3]…a[n]}$，如果有$j\lt i$且$a[j]\gt a[i]$，那么 $a[j]$是$a[i]$的一个逆序，或者$a[i]$和$a[j]$构成一个逆序对。定义排列$a[i]$的逆序数为$a[i]$的逆序个数；排列的逆序数为该排列所有元素的逆序数总和。</p>
+<p>现在我们将八数码用${a[1],a[2],a[3]…a[8]}$（空格不表示）来表示，有：</p>
+<p><strong>引理1：如果左右交换一次棋子，则排列的逆序数奇偶性改变。</strong></p>
+<p>证明：不妨假设交换了$a[i],a[i+1]$，那么$a[j]$$(1\leq j\lt i\ or\ i+1\gt j\leq 9)$的逆序数不会改变。如果$a[i]\lt a[i+1]$，$a[i]$的逆序数不会改变，$a[i+1]$的逆序数会增加1，这是因为$a[i]$变成了它的逆序；如果$a[i]\lt a[i+1]$，$a[i]$的逆序数会减少1，$a[i+1]$的逆序数不变。所以引理成立。</p>
+<p><strong>引理2：如果空格与左右交换一次，则排列的逆序数奇偶性不变。</strong></p>
+<p>证明：因为不表示空格，所以原排列不变，即证引理成立。</p>
+<p><strong>引理3：如果空格与上下交换了一次，则排列的逆序数奇偶性不变。</strong></p>
+<p>证明：不妨设$a[i]$与下面的空格交换了一次，则原排列由${a[1],a[2],…,a[i],a[i+1],a[i+2],…,a[8]}$变成${a[1],a[2],…,a[i+1],a[i+2],a[i],…a[8]}$，我们可以将这个变换分解成两次左右交换棋子，则奇偶性变化了两次，即奇偶性不变，即证引理成立。。</p>
+<p>由以上引理，我们很容易就得到：</p>
+<p><strong>定理：如果交换空格和棋子，则排列的奇偶性不变。</strong></p>
+<p>我们知道八数码最终要求的结果写成排列是{1,2,3,4,5,6,7,8}，其逆序数是偶数。所以有：如果八数码的状态排列的逆序数是奇数，则无解！（PS：若是偶数也不一定有解，注意排列是{1,2,3,4,5,6,7,8}的不一定是最终的结果！）我们可以利用这条定理来剪去搜索时的一些无用的分支。</p>
+<h1 id="问题解答">问题解答</h1><h2 id="BFS">BFS</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;stdio.h&gt;;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;malloc.h&gt;;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;string.h&gt;;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;queue&gt;;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> N 362880+5	<span class="comment">//最多的状态种类</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> LENGTH 9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> state &#123;</span><br><span class="line">	<span class="keyword">char</span> ch[LENGTH];</span><br><span class="line">	<span class="keyword">int</span> father;		<span class="comment">//父节点</span></span><br><span class="line">	<span class="keyword">char</span> direct;	<span class="comment">//通过什么移动转化而来</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> fact[LENGTH+<span class="number">1</span>]=&#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">24</span>,<span class="number">120</span>,<span class="number">720</span>,<span class="number">5040</span>,<span class="number">40320</span>,<span class="number">362880</span>&#125;;	<span class="comment">//各位阶乘结果</span></span><br><span class="line"><span class="keyword">int</span> d[<span class="number">4</span>][<span class="number">2</span>]=&#123;&#123;-<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">0</span>,-<span class="number">1</span>&#125;,&#123;<span class="number">0</span>,<span class="number">1</span>&#125;&#125;;		<span class="comment">//左右上下</span></span><br><span class="line"><span class="keyword">char</span> direct[<span class="number">4</span>]=&#123;<span class="string">'u'</span>,<span class="string">'d'</span>,<span class="string">'l'</span>,<span class="string">'r'</span>&#125;;</span><br><span class="line"><span class="built_in">queue</span>&lt;state&gt; Q;		<span class="comment">//队列</span></span><br><span class="line"><span class="keyword">bool</span> vist[N];	<span class="comment">//是否遍历过</span></span><br><span class="line">state states[N];	<span class="comment">//遍历状态数组</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Bfs</span><span class="params">(state start)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Cantor</span><span class="params">(state s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintAns</span><span class="params">(state s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsSolved</span><span class="params">(state s)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">char</span> c[<span class="number">5</span>];</span><br><span class="line">	state start;	<span class="comment">//使用长度为9的一维数组接受八数码初始状态</span></span><br><span class="line">	<span class="comment">//读取八数码初始状态，空格用9来代替</span></span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%s"</span>,&amp;amp;c);</span><br><span class="line">		<span class="keyword">if</span>(c[<span class="number">0</span>]==<span class="string">'x'</span>) start.ch[i]=<span class="number">9</span>;</span><br><span class="line">		<span class="keyword">else</span> start.ch[i]=c[<span class="number">0</span>]-<span class="string">'0'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(Bfs(start))&#123;</span><br><span class="line">		PrintAns(states[<span class="number">0</span>]);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"unsolved!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintAns</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	<span class="comment">//输出结果</span></span><br><span class="line">	<span class="keyword">if</span>(s.father==-<span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">	PrintAns(states[s.father]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%c"</span>,direct[s.direc]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Cantor展开</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Cantor</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,num;</span><br><span class="line">	num=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;LENGTH;i++)&#123;	<span class="comment">//对于序列中每一位</span></span><br><span class="line">		<span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;LENGTH;j++)&#123;	<span class="comment">//计算比该位小的字符</span></span><br><span class="line">			<span class="keyword">if</span>(s.ch[j]&lt;s.ch[i])</span><br><span class="line">				cnt++;</span><br><span class="line">		&#125;</span><br><span class="line">		num+=cnt*fact[LENGTH-i-<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//判断一个状态是否有解</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsSolved</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,res=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;LENGTH;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(s.ch[i]==<span class="number">9</span>) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;LENGTH;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(s.ch[j]&lt;s.ch[i] &amp;amp;&amp;amp; s.ch[j]!=<span class="number">9</span>)</span><br><span class="line">				res++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> (res%<span class="number">2</span>==<span class="number">0</span>)?<span class="keyword">true</span>:<span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Bfs</span><span class="params">(state start)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	state t;</span><br><span class="line">	<span class="keyword">int</span> x,y;	<span class="comment">//空格所在位置</span></span><br><span class="line">	<span class="keyword">int</span> nx,ny;	<span class="comment">//变换后的空格位置</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">memset</span>(vist,<span class="keyword">false</span>,<span class="keyword">sizeof</span>(vist));</span><br><span class="line">	<span class="comment">//初始化</span></span><br><span class="line">	<span class="keyword">while</span>(!Q.empty()) Q.pop();</span><br><span class="line">	start.father=-<span class="number">1</span>;</span><br><span class="line">	Q.push(start);</span><br><span class="line">	vist[Cantor(start)]=<span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(!Q.empty())&#123;</span><br><span class="line">		t=Q.front();</span><br><span class="line">		Q.pop();</span><br><span class="line">		<span class="keyword">int</span> encode=Cantor(t);</span><br><span class="line">		states[encode]=t;</span><br><span class="line">		<span class="keyword">if</span>(encode == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;LENGTH &amp;amp;&amp;amp; t.ch[i]!=<span class="number">9</span>;i++);</span><br><span class="line">		x=i/<span class="number">3</span>;</span><br><span class="line">		y=i%<span class="number">3</span>;</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">			nx=x+d[i][<span class="number">0</span>];</span><br><span class="line">			ny=y+d[i][<span class="number">1</span>];</span><br><span class="line">			<span class="keyword">if</span>(nx&gt;=<span class="number">0</span> &amp;amp;&amp;amp; nx&lt;<span class="number">3</span> &amp;amp;&amp;amp; ny&gt;=<span class="number">0</span> &amp;amp;&amp;amp; ny&lt;<span class="number">3</span>)&#123;</span><br><span class="line">				state tmp=t;</span><br><span class="line">				tmp.ch[<span class="number">3</span>*x+y]=tmp.ch[<span class="number">3</span>*nx+ny];</span><br><span class="line">				tmp.ch[<span class="number">3</span>*nx+ny]=<span class="number">9</span>;</span><br><span class="line">				<span class="keyword">int</span> <span class="keyword">code_t</span>mp=Cantor(tmp);</span><br><span class="line">				<span class="keyword">if</span>(!vist[<span class="keyword">code_t</span>mp] &amp;amp;&amp;amp; IsSolved(tmp))&#123;</span><br><span class="line">					tmp.direct=i;</span><br><span class="line">					tmp.father=encode;</span><br><span class="line">					Q.push(tmp);</span><br><span class="line">					vist[<span class="keyword">code_t</span>mp]=<span class="keyword">true</span>;	<span class="comment">//进队列时置visit为true</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="双向广搜">双向广搜</h2><p>首先看看双向广搜的模板：<br><figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">void TBFS<span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">       bool found=<span class="literal">false</span>;</span><br><span class="line">       memset<span class="params">(visited,<span class="number">0</span>,sizeof<span class="params">(visited)</span>)</span>;  <span class="comment">// 判重数组</span></span><br><span class="line">       while<span class="params">(!Q1.empty<span class="params">()</span>)</span>  Q1.pop<span class="params">()</span>;   <span class="comment">// 正向队列</span></span><br><span class="line">       while<span class="params">(!Q2.empty<span class="params">()</span>)</span>  Q2.pop<span class="params">()</span>;  <span class="comment">// 反向队列</span></span><br><span class="line">       <span class="comment">//======正向扩展的状态标记为1，反向扩展标记为2</span></span><br><span class="line">       visited[s1.state]=<span class="number">1</span>;   <span class="comment">// 初始状态标记为1</span></span><br><span class="line">       visited[s2.state]=<span class="number">2</span>;   <span class="comment">// 结束状态标记为2</span></span><br><span class="line">       Q1.push<span class="params">(s1)</span>;  <span class="comment">// 初始状态入正向队列</span></span><br><span class="line">       Q2.push<span class="params">(s2)</span>;  <span class="comment">// 结束状态入反向队列</span></span><br><span class="line">       while<span class="params">(!Q1.empty<span class="params">()</span> || !Q2.empty<span class="params">()</span>)</span></span><br><span class="line"></span><br><span class="line">              <span class="keyword">if</span><span class="params">(!Q1.empty<span class="params">()</span>)</span></span><br><span class="line">                     BFS_expand<span class="params">(Q1,<span class="literal">true</span>)</span>;  <span class="comment">// 在正向队列中搜索</span></span><br><span class="line">              <span class="keyword">if</span><span class="params">(found)</span>  <span class="comment">// 搜索结束 </span></span><br><span class="line">                     return ;</span><br><span class="line">              <span class="keyword">if</span><span class="params">(!Q2.empty<span class="params">()</span>)</span></span><br><span class="line">                     BFS_expand<span class="params">(Q2,<span class="literal">false</span>)</span>;  <span class="comment">// 在反向队列中搜索</span></span><br><span class="line">              <span class="keyword">if</span><span class="params">(found)</span> <span class="comment">// 搜索结束</span></span><br><span class="line">                     return ;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br><span class="line">void BFS_expand<span class="params">(queue&lt;Status&gt; &amp;amp;Q,bool flag)</span></span><br><span class="line">&#123;  </span><br><span class="line">       s=Q.front<span class="params">()</span>;  <span class="comment">// 从队列中得到头结点s</span></span><br><span class="line">      Q.pop<span class="params">()</span></span><br><span class="line">      <span class="keyword">for</span><span class="params">( 每个s 的子节点 t )</span></span><br><span class="line">     &#123;</span><br><span class="line">             t.state=Gethash<span class="params">(t.temp)</span>  <span class="comment">// 获取子节点的状态</span></span><br><span class="line">             <span class="keyword">if</span><span class="params">(flag)</span>   <span class="comment">// 在正向队列中判断</span></span><br><span class="line">             &#123;</span><br><span class="line">                      <span class="keyword">if</span> <span class="params">(visited[t.state]!=<span class="number">1</span>）// 没在正向队列出现过</span><br><span class="line">                    ｛</span><br><span class="line">                           if<span class="params">(visited[t.state]==<span class="number">2</span>)</span>  // 该状态在反向队列中出现过</span><br><span class="line">                          &#123;</span><br><span class="line">                                 各种操作；</span><br><span class="line">                                 found=<span class="literal">true</span>；</span><br><span class="line">                                 return;</span><br><span class="line">                           &#125;</span><br><span class="line">                            visited[t.state]=<span class="number">1</span>;   // 标记为在在正向队列中</span><br><span class="line">                            Q.push<span class="params">(t)</span>;  // 入队</span><br><span class="line">                       ｝</span><br><span class="line">             ｝</span><br><span class="line">             else    // 在正向队列中判断</span><br><span class="line">             &#123;</span><br><span class="line">                      if <span class="params">(visited[t.state]!=<span class="number">2</span>） // 没在反向队列出现过</span><br><span class="line">                    ｛</span><br><span class="line">                           if<span class="params">(visited[t.state]==<span class="number">1</span>)</span>  // 该状态在正向向队列中出现过</span><br><span class="line">                           &#123;</span><br><span class="line">                                  各种操作；</span><br><span class="line">                                  found=<span class="literal">true</span>；</span><br><span class="line">                                  return;</span><br><span class="line">                            &#125;</span><br><span class="line">                             visited[t.state]=<span class="number">2</span>;  // 标记为在反向队列中</span><br><span class="line">                             Q.push<span class="params">(t)</span>;  // 入队</span><br><span class="line">                       ｝</span><br><span class="line">             ｝             </span><br><span class="line">&#125;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>下面是代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;stdio.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;malloc.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;string.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;queue&gt;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> N 362880+5	<span class="comment">//最多的状态种类</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> LENGTH 9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> state &#123;</span><br><span class="line">	<span class="keyword">char</span> ch[LENGTH];</span><br><span class="line">	<span class="keyword">int</span> father;		<span class="comment">//父节点</span></span><br><span class="line">	<span class="keyword">char</span> direc;	<span class="comment">//移动方向</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> fact[LENGTH+<span class="number">1</span>]=&#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">24</span>,<span class="number">120</span>,<span class="number">720</span>,<span class="number">5040</span>,<span class="number">40320</span>,<span class="number">362880</span>&#125;;	<span class="comment">//各位阶乘结果</span></span><br><span class="line"><span class="keyword">int</span> d[<span class="number">4</span>][<span class="number">2</span>]=&#123;&#123;-<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">0</span>,-<span class="number">1</span>&#125;,&#123;<span class="number">0</span>,<span class="number">1</span>&#125;&#125;;		<span class="comment">//左右上下</span></span><br><span class="line"><span class="built_in">queue</span>&lt;state&gt; Q1;		<span class="comment">//正向队列</span></span><br><span class="line"><span class="built_in">queue</span>&lt;state&gt; Q2;		<span class="comment">//反向队列</span></span><br><span class="line"><span class="keyword">bool</span> found;		<span class="comment">//是否找到</span></span><br><span class="line"><span class="keyword">int</span> visit[N];	<span class="comment">//是否遍历过</span></span><br><span class="line">state states1[N/<span class="number">2</span>+<span class="number">1</span>];	<span class="comment">//正向遍历状态数组</span></span><br><span class="line">state states2[N/<span class="number">2</span>+<span class="number">1</span>];	<span class="comment">//反向遍历状态数组</span></span><br><span class="line"><span class="keyword">int</span> cross_state;		<span class="comment">//正反搜索的相交点</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFS_expand</span><span class="params">(<span class="built_in">queue</span>&lt;state&gt; &amp;amp;Q,<span class="keyword">bool</span> flag)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Cantor</span><span class="params">(state s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintAns</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsSolved</span><span class="params">(state s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TBFS</span><span class="params">(state start,state end)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">char</span> c[<span class="number">5</span>];</span><br><span class="line">	state start,end;	<span class="comment">//使用长度为9的一维数组接受八数码初始状态</span></span><br><span class="line">	<span class="comment">//读取八数码初始状态，空格用9来代替</span></span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%s"</span>,&amp;amp;c);</span><br><span class="line">		<span class="keyword">if</span>(c[<span class="number">0</span>]==<span class="string">'x'</span>) start.ch[i]=<span class="number">9</span>;</span><br><span class="line">		<span class="keyword">else</span> start.ch[i]=c[<span class="number">0</span>]-<span class="string">'0'</span>;</span><br><span class="line">		end.ch[i]=i+<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	TBFS(start,end);</span><br><span class="line">	<span class="keyword">if</span>(found)&#123;</span><br><span class="line">		PrintAns();</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"unsolved!\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintAns</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//输出结果</span></span><br><span class="line">	<span class="keyword">char</span> ans[N/<span class="number">2</span>];	<span class="comment">//正向</span></span><br><span class="line">	<span class="keyword">int</span> i,cnt=<span class="number">0</span>;</span><br><span class="line">	state tmp=states1[cross_state];</span><br><span class="line">	<span class="keyword">while</span>(tmp.father!=-<span class="number">1</span>)&#123;		<span class="comment">//正向</span></span><br><span class="line">		<span class="comment">//Print(tmp);</span></span><br><span class="line">		<span class="keyword">switch</span>(tmp.direc) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">			ans[cnt++]=<span class="string">'u'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			ans[cnt++]=<span class="string">'d'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">			ans[cnt++]=<span class="string">'l'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">			ans[cnt++]=<span class="string">'r'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		tmp=states1[tmp.father];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(i=cnt-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%c"</span>,ans[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	tmp=states2[cross_state];</span><br><span class="line">	<span class="keyword">while</span>(tmp.father!=-<span class="number">1</span>)&#123;		<span class="comment">//反向</span></span><br><span class="line">		<span class="comment">//Print(tmp);</span></span><br><span class="line">		<span class="keyword">switch</span>(tmp.direc) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"d"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"u"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"r"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"l"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		tmp=states2[tmp.father];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Cantor展开</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Cantor</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,num;</span><br><span class="line">	num=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;LENGTH;i++)&#123;	<span class="comment">//对于序列中每一位</span></span><br><span class="line">		<span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;LENGTH;j++)&#123;	<span class="comment">//计算比该位小的字符</span></span><br><span class="line">			<span class="keyword">if</span>(s.ch[j]&lt;s.ch[i])</span><br><span class="line">				cnt++;</span><br><span class="line">		&#125;</span><br><span class="line">		num+=cnt*fact[LENGTH-i-<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//判断一个状态是否有解</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsSolved</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,res=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;LENGTH;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(s.ch[i]==<span class="number">9</span>) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;LENGTH;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(s.ch[j]&lt;s.ch[i] &amp;amp;&amp;amp; s.ch[j]!=<span class="number">9</span>)</span><br><span class="line">				res++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> (res%<span class="number">2</span>==<span class="number">0</span>)?<span class="keyword">true</span>:<span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFS_expand</span><span class="params">(<span class="built_in">queue</span>&lt;state&gt; &amp;amp;Q,<span class="keyword">bool</span> flag)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	state t;</span><br><span class="line">	<span class="keyword">int</span> x,y;	<span class="comment">//空格所在位置</span></span><br><span class="line">	<span class="keyword">int</span> nx,ny;	<span class="comment">//变换后的空格位置</span></span><br><span class="line"></span><br><span class="line">	t=Q.front();</span><br><span class="line">	Q.pop();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;LENGTH &amp;amp;&amp;amp; t.ch[i]!=<span class="number">9</span>;i++);</span><br><span class="line">	x=i/<span class="number">3</span>;</span><br><span class="line">	y=i%<span class="number">3</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">		nx=x+d[i][<span class="number">0</span>];</span><br><span class="line">		ny=y+d[i][<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">if</span>(nx&gt;=<span class="number">0</span> &amp;amp;&amp;amp; nx&lt;<span class="number">3</span> &amp;amp;&amp;amp; ny&gt;=<span class="number">0</span> &amp;amp;&amp;amp; ny&lt;<span class="number">3</span>)&#123;</span><br><span class="line">			state tmp=t;</span><br><span class="line">			tmp.ch[<span class="number">3</span>*x+y]=tmp.ch[<span class="number">3</span>*nx+ny];</span><br><span class="line">			tmp.ch[<span class="number">3</span>*nx+ny]=<span class="number">9</span>;</span><br><span class="line">			<span class="keyword">int</span> <span class="keyword">code_t</span>mp=Cantor(tmp);</span><br><span class="line">			<span class="keyword">if</span>(flag)&#123;		<span class="comment">//在正向队列中判断</span></span><br><span class="line">				<span class="keyword">if</span>(visit[<span class="keyword">code_t</span>mp]!=<span class="number">1</span> &amp;amp;&amp;amp; IsSolved(tmp))&#123;	<span class="comment">//未在正向队列中出现，且不会无解</span></span><br><span class="line">					tmp.direc=i;	<span class="comment">//保存正向移动方向</span></span><br><span class="line">					tmp.father=Cantor(t);		<span class="comment">//保存正向父节点</span></span><br><span class="line">					states1[<span class="keyword">code_t</span>mp]=tmp;		<span class="comment">//保存节点</span></span><br><span class="line">					<span class="keyword">if</span>(visit[<span class="keyword">code_t</span>mp] == <span class="number">2</span>)&#123;	<span class="comment">//如果在反向队列中出现过</span></span><br><span class="line">						cross_state=<span class="keyword">code_t</span>mp;</span><br><span class="line">						found=<span class="keyword">true</span>;</span><br><span class="line">						<span class="keyword">return</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					visit[<span class="keyword">code_t</span>mp]=<span class="number">1</span>;</span><br><span class="line">					Q.push(tmp);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;			<span class="comment">//在反向队列中判断</span></span><br><span class="line">				<span class="keyword">if</span>(visit[<span class="keyword">code_t</span>mp]!=<span class="number">2</span> &amp;amp;&amp;amp; IsSolved(tmp))&#123;	<span class="comment">//未在反向队列中出现，且不会无解</span></span><br><span class="line">					tmp.direc=i;		<span class="comment">//保存反向移动方向</span></span><br><span class="line">					tmp.father=Cantor(t);			<span class="comment">//保存反向父节点</span></span><br><span class="line">					states2[<span class="keyword">code_t</span>mp]=tmp;			<span class="comment">//保存节点</span></span><br><span class="line">					<span class="keyword">if</span>(visit[<span class="keyword">code_t</span>mp]==<span class="number">1</span>)&#123;		<span class="comment">//如果在正向队列中出现过</span></span><br><span class="line">						cross_state=<span class="keyword">code_t</span>mp;</span><br><span class="line">						found=<span class="keyword">true</span>;</span><br><span class="line">						<span class="keyword">return</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					visit[<span class="keyword">code_t</span>mp]=<span class="number">2</span>;</span><br><span class="line">					Q.push(tmp);</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TBFS</span><span class="params">(state start,state end)</span></span>&#123;</span><br><span class="line">	<span class="comment">//初始化</span></span><br><span class="line">	found=<span class="keyword">false</span>;</span><br><span class="line">	<span class="built_in">memset</span>(visit,<span class="number">0</span>,<span class="keyword">sizeof</span>(visit));</span><br><span class="line">	<span class="keyword">while</span>(!Q1.empty()) Q1.pop();</span><br><span class="line">	<span class="keyword">while</span>(!Q2.empty()) Q2.pop();</span><br><span class="line">	<span class="keyword">int</span> code_start=Cantor(start);	<span class="comment">//初始状态</span></span><br><span class="line">	visit[code_start]=<span class="number">1</span>;</span><br><span class="line">	start.father=-<span class="number">1</span>;</span><br><span class="line">	states1[code_start]=start;</span><br><span class="line">	<span class="keyword">int</span> code_end=Cantor(end);	<span class="comment">//目标状态</span></span><br><span class="line">	visit[code_end]=<span class="number">2</span>;</span><br><span class="line">	end.father=-<span class="number">1</span>;</span><br><span class="line">	states2[code_end]=end;</span><br><span class="line">	Q1.push(start);</span><br><span class="line">	Q2.push(end);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(!Q1.empty() || !Q2.empty())&#123;</span><br><span class="line">		<span class="keyword">if</span>(!Q1.empty())&#123;</span><br><span class="line">			BFS_expand(Q1,<span class="keyword">true</span>);		<span class="comment">//正向搜索</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(found)&#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(!Q2.empty())&#123;</span><br><span class="line">			BFS_expand(Q2,<span class="keyword">false</span>);		<span class="comment">//反向搜索</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(found)&#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然你也可以适用一个队列来完成双向广搜，有兴趣的可以参考：<a href="http://www.cnblogs.com/JMDWQ/archive/2012/05/20/2510698.html" target="_blank" rel="external">八数码（双向广搜）</a>。</p>
+<h2 id="A*算法">A*算法</h2><p>A*算法的模板如下：<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">A\*()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">OPEN</span>.Add(起始节点);</span><br><span class="line"></span><br><span class="line">	// 待扩展节点队列非空</span><br><span class="line">	while(!<span class="keyword">OPEN</span>.empty())</span><br><span class="line">	&#123;</span><br><span class="line">		S = <span class="keyword">OPEN</span>.pop(); // 从<span class="keyword">OPEN</span>表中弹出一个最优的待扩展节点</span><br><span class="line">		<span class="keyword">CLOSED</span>.Add(S); // 置入<span class="keyword">CLOSED</span>表</span><br><span class="line"></span><br><span class="line">		// 如果S就是目标状态则结束</span><br><span class="line">		if(S == GOAL)</span><br><span class="line">		&#123;</span><br><span class="line">			return OVER;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		// 尝试扩展S的所有子节点</span><br><span class="line">		while(childS = S.nextChild())</span><br><span class="line">		&#123;</span><br><span class="line">			// 考察子节点是否在<span class="keyword">OPEN</span>表内</span><br><span class="line">			if(<span class="keyword">OPEN</span>.isInclude(childS))</span><br><span class="line">			&#123;</span><br><span class="line">				// 如果这个子节点比<span class="keyword">OPEN</span>表内的节点更优</span><br><span class="line">				if(g(childS) &lt; g(<span class="keyword">OPEN</span>.Find(childS))</span><br><span class="line">				&#123;</span><br><span class="line">					// 把这个之前扩展过的子节点的父节点修正为S</span><br><span class="line">					childS.parent = S; </span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			// 通过<span class="keyword">CLOSED</span>表判重</span><br><span class="line">			if(!<span class="keyword">CLOSED</span>.isInclude(childS))</span><br><span class="line">			&#123;</span><br><span class="line">				// 如果没扩展过这个节点则把这个节点加<span class="keyword">OPEN</span>中</span><br><span class="line">				<span class="keyword">OPEN</span>.Add(childS);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>要注意A*算法要满足一下两点：</p>
+<ol>
+<li>h(n)&gt;h’(n),h’(n)为从当前节点到目标点的实际的最优代价值。</li>
+<li>每次扩展的节点的f值大于等于父节点的f值。<br>我们选择曼哈顿距离，即八数码中每一位离它最终应在位置的距离（空格除外），作为估价函数。这样显然是满足1的，而每一次拓展的节点h至多减少1，g增加1，所以f是单调递增的，满足2，所以使用曼哈顿距离作为估计代价是可以得到最优解的。具体代码如下：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;stdio.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;malloc.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;string.h&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;queue&gt;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> N 362880+5	<span class="comment">//最多的状态种类</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> LENGTH 9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> state &#123;</span><br><span class="line">	<span class="keyword">char</span> ch[LENGTH];</span><br><span class="line">	<span class="keyword">int</span> g,f,h;		<span class="comment">//A*算法的参数——g：迭代层数;h:估计代价; f:启发函数</span></span><br><span class="line">	<span class="keyword">int</span> father;		<span class="comment">//父节点</span></span><br><span class="line">	<span class="keyword">char</span> direc;		<span class="comment">//移动方向</span></span><br><span class="line">	<span class="keyword">bool</span> <span class="keyword">operator</span> &lt; (<span class="keyword">const</span> state&amp;amp; k) <span class="keyword">const</span>&#123;		<span class="comment">//优先队列判断依据</span></span><br><span class="line">		<span class="keyword">return</span> f&gt;k.f;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> fact[LENGTH+<span class="number">1</span>]=&#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">24</span>,<span class="number">120</span>,<span class="number">720</span>,<span class="number">5040</span>,<span class="number">40320</span>,<span class="number">362880</span>&#125;;	<span class="comment">//各位阶乘结果</span></span><br><span class="line"><span class="keyword">int</span> d[<span class="number">4</span>][<span class="number">2</span>]=&#123;&#123;-<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">0</span>,-<span class="number">1</span>&#125;,&#123;<span class="number">0</span>,<span class="number">1</span>&#125;&#125;;		<span class="comment">//左右上下</span></span><br><span class="line"><span class="keyword">char</span> direct[<span class="number">4</span>]=&#123;<span class="string">'u'</span>,<span class="string">'d'</span>,<span class="string">'l'</span>,<span class="string">'r'</span>&#125;;</span><br><span class="line">priority_queue&lt;state&gt; open;		<span class="comment">//队列</span></span><br><span class="line"><span class="keyword">bool</span> close[N];	<span class="comment">//是否遍历过</span></span><br><span class="line">state states[N];	<span class="comment">//反向遍历状态数组</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Cantor</span><span class="params">(state s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintAns</span><span class="params">(state s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsSolved</span><span class="params">(state s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">A_Sart</span><span class="params">(state s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">h</span><span class="params">(state s)</span></span>;		<span class="comment">//估价函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">char</span> c[<span class="number">5</span>];</span><br><span class="line">	state start;	<span class="comment">//使用长度为9的一维数组接受八数码初始状态</span></span><br><span class="line">	<span class="comment">//读取八数码初始状态，空格用9来代替</span></span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%s"</span>,&amp;amp;c);</span><br><span class="line">		<span class="keyword">if</span>(c[<span class="number">0</span>]==<span class="string">'x'</span>) start.ch[i]=<span class="number">9</span>;</span><br><span class="line">		<span class="keyword">else</span> start.ch[i]=c[<span class="number">0</span>]-<span class="string">'0'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(A_Sart(start))&#123;</span><br><span class="line">		PrintAns(states[<span class="number">0</span>]);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"unsolved!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//递归输出结果</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintAns</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	<span class="comment">//输出结果</span></span><br><span class="line">	<span class="keyword">if</span>(s.father==-<span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">	PrintAns(states[s.father]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%c"</span>,direct[s.direc]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Cantor展开</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Cantor</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,num;</span><br><span class="line">	num=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;LENGTH;i++)&#123;	<span class="comment">//对于序列中每一位</span></span><br><span class="line">		<span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;LENGTH;j++)&#123;	<span class="comment">//计算比该位小的字符</span></span><br><span class="line">			<span class="keyword">if</span>(s.ch[j]&lt;s.ch[i])</span><br><span class="line">				cnt++;</span><br><span class="line">		&#125;</span><br><span class="line">		num+=cnt*fact[LENGTH-i-<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//判断一个状态是否有解</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsSolved</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j,res=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;LENGTH;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(s.ch[i]==<span class="number">9</span>) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;LENGTH;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(s.ch[j]&lt;s.ch[i] &amp;amp;&amp;amp; s.ch[j]!=<span class="number">9</span>)</span><br><span class="line">				res++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> (res%<span class="number">2</span>==<span class="number">0</span>)?<span class="keyword">true</span>:<span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//估价函数，返回该状态与最终状态的不同格数之和</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">h</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(s.ch[i]==<span class="number">9</span>) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">if</span>(s.ch[i]!=i+<span class="number">1</span>)&#123;</span><br><span class="line">			<span class="keyword">int</span> t=<span class="built_in">abs</span>(s.ch[i]-i);</span><br><span class="line">			res += (t%<span class="number">3</span> + t/<span class="number">3</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">A_Sart</span><span class="params">(state s)</span></span>&#123;</span><br><span class="line">	state t;</span><br><span class="line">	<span class="keyword">int</span> <span class="keyword">code_t</span>,i,x,y,nx,ny;</span><br><span class="line">	<span class="comment">//初始化</span></span><br><span class="line">	<span class="built_in">memset</span>(close,<span class="keyword">false</span>,<span class="keyword">sizeof</span>(close));</span><br><span class="line">	<span class="keyword">while</span>(!open.empty()) open.pop();</span><br><span class="line">	s.h=<span class="number">0</span>; s.g=<span class="number">0</span>; s.f=s.g+s.h;</span><br><span class="line">	s.father=-<span class="number">1</span>;</span><br><span class="line">	close[Cantor(s)]=<span class="keyword">true</span>;</span><br><span class="line">	open.push(s);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(!open.empty())&#123;</span><br><span class="line">		t=open.top();</span><br><span class="line">		open.pop();</span><br><span class="line">		<span class="keyword">code_t</span>=Cantor(t);</span><br><span class="line">		states[<span class="keyword">code_t</span>]=t;		<span class="comment">//保存节点</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">code_t</span>==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">true</span>;		<span class="comment">//找到了终点！</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;LENGTH &amp;amp;&amp;amp; t.ch[i]!=<span class="number">9</span>;i++);</span><br><span class="line">		x=i/<span class="number">3</span>;</span><br><span class="line">		y=i%<span class="number">3</span>;</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">			nx=x+d[i][<span class="number">0</span>];</span><br><span class="line">			ny=y+d[i][<span class="number">1</span>];</span><br><span class="line">			<span class="keyword">if</span>(nx&gt;=<span class="number">0</span> &amp;amp;&amp;amp; nx&lt;<span class="number">3</span> &amp;amp;&amp;amp; ny&gt;=<span class="number">0</span> &amp;amp;&amp;amp; ny&lt;<span class="number">3</span>)&#123;</span><br><span class="line">				state tmp=t;</span><br><span class="line">				tmp.ch[<span class="number">3</span>*x+y]=tmp.ch[<span class="number">3</span>*nx+ny];</span><br><span class="line">				tmp.ch[<span class="number">3</span>*nx+ny]=<span class="number">9</span>;</span><br><span class="line">				<span class="keyword">int</span> <span class="keyword">code_t</span>mp=Cantor(tmp);</span><br><span class="line">				<span class="comment">//不在关闭表中且不会无解</span></span><br><span class="line">				<span class="keyword">if</span>(!close[<span class="keyword">code_t</span>mp] &amp;amp;&amp;amp; IsSolved(tmp))&#123;</span><br><span class="line">					tmp.direc=i;</span><br><span class="line">					tmp.father=<span class="keyword">code_t</span>;</span><br><span class="line"></span><br><span class="line">					tmp.g=t.g+<span class="number">1</span>;</span><br><span class="line">					tmp.h=h(tmp);</span><br><span class="line">					tmp.f=tmp.g+tmp.h;</span><br><span class="line">					open.push(tmp);</span><br><span class="line">					close[<span class="keyword">code_t</span>mp]=<span class="keyword">true</span>;	<span class="comment">//进队列时置visit为true</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="后续">后续</h1><p>总的看来，一个好的A<em>算法是快于双向广搜的，但是双向广搜的应用范围比A</em>大得多，且更适合拓展。当然A<em>也有其演变的算法——IDA</em>，以后再学习学习IDA*。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/人工智能/"> #人工智能 </a>
+          
+            <a href="/tags/寻路算法/"> #寻路算法 </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/14/highway-hierarchies-query/">Highway Hierarchies Query</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/05/e5-ba-b7-e6-8b-93-e5-b1-95-e5-bc-80/">康拓展开基本介绍</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="post-spread">
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      </div>
+    
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2014/10/09/e5-85-ab-e6-95-b0-e7-a0-81-e5-9b-9e-e9-a1-bebfs-e3-80-81-e5-8f-8c-e5-90-91-e5-b9-bf-e6-90-9c-e4-b8-8ea/"
+               data-title="八数码——回顾BFS、双向广搜与A*" data-url="http://yoursite.com/2014/10/09/e5-85-ab-e6-95-b0-e7-a0-81-e5-9b-9e-e9-a1-bebfs-e3-80-81-e5-8f-8c-e5-90-91-e5-b9-bf-e6-90-9c-e4-b8-8ea/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="Lucien Wang" />
+          <p class="site-author-name">Lucien Wang</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/lucienevans" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/2619061243/profile?topnav=1&wvr=6" target="_blank">Weibo</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题简介："><span class="nav-number">1.</span> <span class="nav-text">问题简介：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题分析："><span class="nav-number">2.</span> <span class="nav-text">问题分析：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何表示八数码中的每一个状态？"><span class="nav-number">2.1.</span> <span class="nav-text">如何表示八数码中的每一个状态？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何判断两个八数码状态是否相同？"><span class="nav-number">2.2.</span> <span class="nav-text">如何判断两个八数码状态是否相同？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何判断状态是否有解？"><span class="nav-number">2.3.</span> <span class="nav-text">如何判断状态是否有解？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题解答"><span class="nav-number">3.</span> <span class="nav-text">问题解答</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BFS"><span class="nav-number">3.1.</span> <span class="nav-text">BFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双向广搜"><span class="nav-number">3.2.</span> <span class="nav-text">双向广搜</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A*算法"><span class="nav-number">3.3.</span> <span class="nav-text">A*算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后续"><span class="nav-number">4.</span> <span class="nav-text">后续</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Lucien Wang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lucienwang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>
