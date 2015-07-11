@@ -236,8 +236,9 @@
 <blockquote>
 <p>:set paste</p>
 </blockquote>
-<p>进入paste模式以后，可以在插入模式下粘贴内容，不会有任何变形。这个真是灰常好用，情不自禁看了一下帮助，发现它做了这么多事：</p>
-<p>textwidth设置为0<br>wrapmargin设置为0<br>set noai<br>set nosi<br>softtabstop设置为0<br>revins重置<br>ruler重置<br>showmatch重置<br>formatoptions使用空值<br>下面的选项值不变，但却被禁用：</p>
+<p>进入paste模式以后，可以在插入模式下粘贴内容，不会有任何变形。这个真是灰常好用，情不自禁看了一下帮助，发现它做了这么多事：<br><a id="more"></a></p>
+<p>textwidth设置为0<br>wrapmargin设置为0<br>set noai<br>set nosi<br>softtabstop设置为0<br>revins重置<br>ruler重置<br>showmatch重置<br>formatoptions使用空值</p>
+<p>下面的选项值不变，但却被禁用：</p>
 <p>lisp<br>indentexpr<br>cindent<br>怪不得之前只设置noai和nosi不行，原来与这么多因素有关！</p>
 <p>但这样还是比较麻烦的，每次要粘贴的话，先set paste，然后粘贴，然后再set nopaste。有没有更方便的呢？你可能想到了，使用键盘映射呀，对。我们可以这样设置：:</p>
 <blockquote>

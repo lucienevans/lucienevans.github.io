@@ -237,7 +237,7 @@
 <p>-i extension</p>
 <p>Edit files in-place, saving backups with the specified extension.  If a zero-length extension is given, no backup will be saved.  It is not recommended to give a zero-length extension when in-place editing files, as you risk corruption or partial content in situations where disk space is<br>    exhausted, etc.</p>
 </blockquote>
-<p>所以Mac OS sed命令的一般用法就是：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -<span class="tag">i</span> <span class="string">'s///g'</span> file</span><br></pre></td></tr></table></figure></p>
+<p>所以Mac OS sed命令的一般用法就是：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">sed</span> <span class="tag">-i</span> <span class="attr_selector">[suffix]</span> <span class="attr_selector">[pattern]</span> <span class="tag">files</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
