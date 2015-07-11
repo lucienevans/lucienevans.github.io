@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="小技巧," />
 
 
 
@@ -55,7 +55,7 @@
 
 
 
-  <title> Hello Blog！ // 心中尚未崩坏的地方 </title>
+  <title> vim粘贴模式 // 心中尚未崩坏的地方 </title>
 </head>
 
 <body>
@@ -184,7 +184,7 @@
           
           
             
-              Hello Blog！
+              vim粘贴模式
             
           
         </h1>
@@ -192,14 +192,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-08-04
+          发表于 2015-07-11
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/心情日志/">心情日志</a>
+              <a href="/categories/Linux-Vim/">Linux Vim</a>
 
               
               
@@ -212,8 +212,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/08/04/hello-blog-ef-bc-81/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/04/hello-blog-ef-bc-81/"></span>
+            <a href="/2015/07/11/vim粘贴模式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/11/vim粘贴模式/"></span>
             </a>
           </span>
           
@@ -227,23 +227,50 @@
       
 
       
-        <p>终于建立了自己的第一个个人主页，以后我会在这里写下自己学习的一些心得体会，希望大家喜欢！</p>
+        <p>用Vim粘贴的时候总是会出现很奇怪的制表符，从而使粘贴的格式非常乱，为了避免这种情况，可以：</p>
+<blockquote>
+<p>:set noai nosi</p>
+</blockquote>
+<p>取消了自动缩进和智能缩进，这样粘贴就不会错行了。但在有的vim中不行，还是排版错乱。</p>
+<p>后来发现了更好用的设置：</p>
+<blockquote>
+<p>:set paste</p>
+</blockquote>
+<p>进入paste模式以后，可以在插入模式下粘贴内容，不会有任何变形。这个真是灰常好用，情不自禁看了一下帮助，发现它做了这么多事：</p>
+<p>textwidth设置为0<br>wrapmargin设置为0<br>set noai<br>set nosi<br>softtabstop设置为0<br>revins重置<br>ruler重置<br>showmatch重置<br>formatoptions使用空值<br>下面的选项值不变，但却被禁用：</p>
+<p>lisp<br>indentexpr<br>cindent<br>怪不得之前只设置noai和nosi不行，原来与这么多因素有关！</p>
+<p>但这样还是比较麻烦的，每次要粘贴的话，先set paste，然后粘贴，然后再set nopaste。有没有更方便的呢？你可能想到了，使用键盘映射呀，对。我们可以这样设置：:</p>
+<blockquote>
+<p>:map <f10> :set paste<cr><br>:map <f11> :set nopaste<cr></cr></f11></cr></f10></p>
+</blockquote>
+<p>这样在粘贴前按F10键启动paste模式，粘贴后按F11取消paste模式即可。其实，paste有一个切换paste开关的选项，这就是pastetoggle。通过它可以绑定快捷键来激活/取消 paste模式。比如：:</p>
+<blockquote>
+<p>:set pastetoggle=<f11></f11></p>
+</blockquote>
+<p>这样减少了一个快捷键的占用，使用起来也更方便一些。</p>
+<p>原文转自：<a href="http://blog.csdn.net/king_on/article/details/8104235" target="_blank" rel="external">http://blog.csdn.net/king_on/article/details/8104235</a></p>
 
       
     </div>
 
     <div class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/小技巧/"> #小技巧 </a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/08/04/route-planning-in-road-networks/">Route Planning in Road Networks</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/11/mac下sed命令-i参数/">mac下sed命令-i参数</a>
             
           </div>
         </div>
@@ -286,8 +313,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2014/08/04/hello-blog-ef-bc-81/"
-               data-title="Hello Blog！" data-url="http://yoursite.com/2014/08/04/hello-blog-ef-bc-81/">
+          <div class="ds-thread" data-thread-key="2015/07/11/vim粘贴模式/"
+               data-title="vim粘贴模式" data-url="http://yoursite.com/2015/07/11/vim粘贴模式/">
           </div>
         
       </div>

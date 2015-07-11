@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="小技巧," />
 
 
 
@@ -55,7 +55,7 @@
 
 
 
-  <title> Hello Blog！ // 心中尚未崩坏的地方 </title>
+  <title> mac下sed命令-i参数 // 心中尚未崩坏的地方 </title>
 </head>
 
 <body>
@@ -184,7 +184,7 @@
           
           
             
-              Hello Blog！
+              mac下sed命令-i参数
             
           
         </h1>
@@ -192,14 +192,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-08-04
+          发表于 2015-07-11
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/心情日志/">心情日志</a>
+              <a href="/categories/Linux/">Linux</a>
 
               
               
@@ -212,8 +212,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/08/04/hello-blog-ef-bc-81/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/04/hello-blog-ef-bc-81/"></span>
+            <a href="/2015/07/11/mac下sed命令-i参数/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/11/mac下sed命令-i参数/"></span>
             </a>
           </span>
           
@@ -227,23 +227,41 @@
       
 
       
-        <p>终于建立了自己的第一个个人主页，以后我会在这里写下自己学习的一些心得体会，希望大家喜欢！</p>
+        <p>Mac OS中的term和linux中的term还是有些不同的地方。<br>比如今天在用sed命令的时候，在linux中-i参数描述如下：</p>
+<blockquote>
+<p>-i[SUFFIX], —in-place[=SUFFIX]</p>
+<p>edit  files  in  place (makes backup if extension supplied).  The default operation mode is to break symbolic and hard links.  This can be changed with —follow-symlinks and —copy.</p>
+</blockquote>
+<p>也就是说如果提供了后缀名，则sed命令会备份原文件，若不提供则不备份。<br>而在Mac OS中则必须提供这个后缀名：</p>
+<blockquote>
+<p>-i extension</p>
+<p>Edit files in-place, saving backups with the specified extension.  If a zero-length extension is given, no backup will be saved.  It is not recommended to give a zero-length extension when in-place editing files, as you risk corruption or partial content in situations where disk space is<br>    exhausted, etc.</p>
+</blockquote>
+<p>所以Mac OS sed命令的一般用法就是：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -<span class="tag">i</span> <span class="string">'s///g'</span> file</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
 
     <div class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/小技巧/"> #小技巧 </a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/08/04/route-planning-in-road-networks/">Route Planning in Road Networks</a>
+              <a href="/2015/07/11/vim粘贴模式/">vim粘贴模式</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/22/测试/">测试</a>
             
           </div>
         </div>
@@ -286,8 +304,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2014/08/04/hello-blog-ef-bc-81/"
-               data-title="Hello Blog！" data-url="http://yoursite.com/2014/08/04/hello-blog-ef-bc-81/">
+          <div class="ds-thread" data-thread-key="2015/07/11/mac下sed命令-i参数/"
+               data-title="mac下sed命令-i参数" data-url="http://yoursite.com/2015/07/11/mac下sed命令-i参数/">
           </div>
         
       </div>

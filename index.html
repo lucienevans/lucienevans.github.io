@@ -186,6 +186,191 @@
           
           
             
+              <a class="post-title-link" href="/2015/07/11/vim粘贴模式/">
+                vim粘贴模式
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-07-11
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Linux-Vim/">Linux Vim</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/07/11/vim粘贴模式/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/11/vim粘贴模式/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>用Vim粘贴的时候总是会出现很奇怪的制表符，从而使粘贴的格式非常乱，为了避免这种情况，可以：</p>
+<blockquote>
+<p>:set noai nosi</p>
+</blockquote>
+<p>取消了自动缩进和智能缩进，这样粘贴就不会错行了。但在有的vim中不行，还是排版错乱。</p>
+<p>后来发现了更好用的设置：</p>
+<blockquote>
+<p>:set paste</p>
+</blockquote>
+<p>进入paste模式以后，可以在插入模式下粘贴内容，不会有任何变形。这个真是灰常好用，情不自禁看了一下帮助，发现它做了这么多事：</p>
+<p>textwidth设置为0<br>wrapmargin设置为0<br>set noai<br>set nosi<br>softtabstop设置为0<br>revins重置<br>ruler重置<br>showmatch重置<br>formatoptions使用空值<br>下面的选项值不变，但却被禁用：</p>
+<p>lisp<br>indentexpr<br>cindent<br>怪不得之前只设置noai和nosi不行，原来与这么多因素有关！</p>
+<p>但这样还是比较麻烦的，每次要粘贴的话，先set paste，然后粘贴，然后再set nopaste。有没有更方便的呢？你可能想到了，使用键盘映射呀，对。我们可以这样设置：:</p>
+<blockquote>
+<p>:map <f10> :set paste<cr><br>:map <f11> :set nopaste<cr></cr></f11></cr></f10></p>
+</blockquote>
+<p>这样在粘贴前按F10键启动paste模式，粘贴后按F11取消paste模式即可。其实，paste有一个切换paste开关的选项，这就是pastetoggle。通过它可以绑定快捷键来激活/取消 paste模式。比如：:</p>
+<blockquote>
+<p>:set pastetoggle=<f11></f11></p>
+</blockquote>
+<p>这样减少了一个快捷键的占用，使用起来也更方便一些。</p>
+<p>原文转自：<a href="http://blog.csdn.net/king_on/article/details/8104235" target="_blank" rel="external">http://blog.csdn.net/king_on/article/details/8104235</a></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/07/11/mac下sed命令-i参数/">
+                mac下sed命令-i参数
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-07-11
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Linux/">Linux</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/07/11/mac下sed命令-i参数/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/11/mac下sed命令-i参数/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <p>Mac OS中的term和linux中的term还是有些不同的地方。<br>比如今天在用sed命令的时候，在linux中-i参数描述如下：</p>
+<blockquote>
+<p>-i[SUFFIX], —in-place[=SUFFIX]</p>
+<p>edit  files  in  place (makes backup if extension supplied).  The default operation mode is to break symbolic and hard links.  This can be changed with —follow-symlinks and —copy.</p>
+</blockquote>
+<p>也就是说如果提供了后缀名，则sed命令会备份原文件，若不提供则不备份。<br>而在Mac OS中则必须提供这个后缀名：</p>
+<blockquote>
+<p>-i extension</p>
+<p>Edit files in-place, saving backups with the specified extension.  If a zero-length extension is given, no backup will be saved.  It is not recommended to give a zero-length extension when in-place editing files, as you risk corruption or partial content in situations where disk space is<br>    exhausted, etc.</p>
+</blockquote>
+<p>所以Mac OS sed命令的一般用法就是：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -<span class="tag">i</span> <span class="string">'s///g'</span> file</span><br></pre></td></tr></table></figure></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/06/22/测试/">
                 测试
               </a>
@@ -227,7 +412,7 @@
 <p>Use the <code>print()</code> function<br><code>This is a literal backtick (`) here.</code></p>
 <p>Please don’t use any <code>&lt;blink&gt;</code> tags.</p>
 <p><code>&amp;#8212</code> is the decimal-encoded equlvalent of <code>&amp;mdash</code>.</p>
-<p><a href="http:/lucienevans.com/" target="_blank" rel="external">http:/lucienevans.com/</a><br><a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x61;&#x64;&#x6d;&#x69;&#110;&#64;&#108;&#117;&#99;&#105;&#x65;&#110;&#101;&#118;&#97;&#110;&#x73;&#x2e;&#99;&#x6f;&#109;">&#x61;&#x64;&#x6d;&#x69;&#110;&#64;&#108;&#117;&#99;&#105;&#x65;&#110;&#101;&#118;&#97;&#110;&#x73;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p><a href="http:/lucienevans.com/" target="_blank" rel="external">http:/lucienevans.com/</a><br><a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#97;&#100;&#x6d;&#x69;&#x6e;&#64;&#108;&#x75;&#99;&#105;&#x65;&#x6e;&#x65;&#118;&#x61;&#110;&#115;&#46;&#x63;&#111;&#109;">&#97;&#100;&#x6d;&#x69;&#x6e;&#64;&#108;&#x75;&#99;&#105;&#x65;&#x6e;&#x65;&#118;&#x61;&#110;&#115;&#46;&#x63;&#111;&#109;</a></p>
 
         
       
@@ -823,167 +1008,6 @@
 
 
     
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/09/09/android-e5-ae-9e-e7-8e-b0-e5-8f-8c-e5-87-bb-e9-94-81-e5-b1-8f/">
-                Android实现双击锁屏
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-09-09
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Android/">Android</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/09/09/android-e5-ae-9e-e7-8e-b0-e5-8f-8c-e5-87-bb-e9-94-81-e5-b1-8f/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/09/android-e5-ae-9e-e7-8e-b0-e5-8f-8c-e5-87-bb-e9-94-81-e5-b1-8f/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>今天在网上下载了一个双击锁屏的小软件，感觉很神奇，就尝试着自己来做一个。结果在网上搜了很久都没有找到怎么获取<strong>手机全局的双击事件</strong>，只能在我们自己的软件界面响应双击事件。没有办法，反编译之！</p>
-<p>看了看源代码，才发现人家也不是响应全局的双击事件，而是在每一个当前活动界面上添加了一个隐形的控件，然后监听这个控件的双击事件，从而达到在手机任何软件内双击锁屏的功能。</p>
-<p>有没有瞬间觉得很坑爹。。。。。</p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
-      
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/08/27/android-e5-ae-9e-e7-8e-b0-e6-8b-8d-e7-85-a7-e5-8a-9f-e8-83-bd/">
-                android实现拍照功能
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-08-27
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/Android/">Android</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/08/27/android-e5-ae-9e-e7-8e-b0-e6-8b-8d-e7-85-a7-e5-8a-9f-e8-83-bd/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/08/27/android-e5-ae-9e-e7-8e-b0-e6-8b-8d-e7-85-a7-e5-8a-9f-e8-83-bd/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>Android框架包含了对多种摄像头和摄像特性的支持，应用程序可以进行图片和视频的捕获。</p>
-<h2 id="需要考虑的问题">需要考虑的问题</h2><p>在让应用程序使用Android设备的摄像头之前，应该考虑一些期望如何使用此硬件的问题。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/08/27/android-e5-ae-9e-e7-8e-b0-e6-8b-8d-e7-85-a7-e5-8a-9f-e8-83-bd/#more">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
-
-    
   </div>
 
   
@@ -1022,14 +1046,14 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
